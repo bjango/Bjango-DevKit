@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema 
+targetNamespace="https://bjango.com/pinwheel" 
+xmlns="https://bjango.com/pinwheel" 
+xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+elementFormDefault="qualified">
+
+ <!-- Root element -->
+ <xs:element name="pinwheel">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element name="project" type="ProjectType" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:element>
+
+<!-- ProjectType -->
+<xs:complexType name="ProjectType">
+  <xs:sequence>
+    <xs:element name="header" type="HeaderType"/>
+    <xs:element name="settings" type="SettingsType"/>
+    <xs:element name="colorItems" type="ColorItemsType"/>
+    <xs:element name="buildGroups" type="BuildGroupsType"/>
+    <xs:element name="testGroups" type="TestGroupsType"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- HeaderType -->
+<xs:complexType name="HeaderType">
+  <xs:sequence>
+    <xs:element name="version" type="xs:string"/>
+    <xs:element name="description" type="xs:string"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- SettingsType -->
+<xs:complexType name="SettingsType">
+  <xs:sequence>
+    <xs:element name="setting" type="SettingType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- SettingType -->
+<xs:complexType name="SettingType">
+  <xs:sequence>
+    <xs:element name="key" type="xs:string"/>
+    <xs:element name="value" type="xs:string"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- ColorItemsType -->
+<xs:complexType name="ColorItemsType">
+  <xs:choice minOccurs="0" maxOccurs="unbounded">
+    <xs:element name="colorSet" type="ColorSetType"/>
+    <xs:element name="colorItem" type="ColorItemType"/>
+    <xs:element name="alias" type="AliasType"/>
+    <xs:element name="group" type="GroupType"/>
+  </xs:choice>
+</xs:complexType>
+
+<!-- ColorSetType -->
+<xs:complexType name="ColorSetType">
+  <xs:sequence>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="profile" type="xs:string"/>
+    <xs:element name="steps" type="xs:integer"/>
+    <xs:element name="interpolation" type="xs:integer"/>
+    <xs:element name="type" type="xs:integer"/>
+    <xs:element name="middle" type="xs:decimal"/>
+    <xs:element name="naming" type="xs:integer"/>
+    <xs:element name="colors" type="ColorsType"/>
+    <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="testPosition" type="xs:string" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- ColorItemType -->
+<xs:complexType name="ColorItemType">
+  <xs:sequence>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="profile" type="xs:string"/>
+    <xs:element name="appearance" type="xs:string"/>
+    <xs:element name="color" type="ItemColorType"/>
+    <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="testPosition" type="xs:string" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- AliasType -->
+<xs:complexType name="AliasType">
+  <xs:sequence>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="type" type="xs:integer"/>
+    <xs:element name="referencedItemId" type="xs:string"/>
+    <xs:element name="subIndex" type="xs:integer"/>
+    <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="testPosition" type="xs:string" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- GroupType -->
+<xs:complexType name="GroupType">
+  <xs:sequence>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="expanded" type="xs:string" minOccurs="0"/>
+    <xs:element name="namespace" type="xs:string" minOccurs="0"/>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="colorSet" type="ColorSetType"/>
+      <xs:element name="colorItem" type="ColorItemType"/>
+      <xs:element name="alias" type="AliasType"/>
+      <xs:element name="group" type="GroupType"/>
+    </xs:choice>
+    <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="testGroupId" type="xs:string" minOccurs="0"  maxOccurs="1"/>
+    <xs:element name="testPosition" type="xs:string" minOccurs="0"  maxOccurs="1"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- ColorsType -->
+<xs:complexType name="ColorsType">
+  <xs:sequence>
+    <xs:element name="color" type="ColorType" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- ColorType -->
+<xs:complexType name="ColorType">
+  <xs:sequence>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="variants" type="VariantsType"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- VariantsType -->
+<xs:complexType name="VariantsType">
+  <xs:sequence>
+    <xs:element name="variant" type="VariantType" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- VariantType -->
+<xs:complexType name="VariantType">
+  <xs:sequence>
+    <xs:element name="rgba" type="xs:string"/>
+  </xs:sequence>
+  <xs:attribute name="type" type="xs:string" use="optional"/>
+</xs:complexType>
+
+<!-- ItemColorType -->
+<xs:complexType name="ItemColorType">
+  <xs:sequence>
+    <xs:element name="variants" type="VariantsType"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- BuildGroupsType -->
+<xs:complexType name="BuildGroupsType">
+  <xs:sequence>
+    <xs:element name="buildGroup" type="BuildGroupType" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- BuildGroupType -->
+<xs:complexType name="BuildGroupType">
+  <xs:sequence>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="expanded" type="xs:string" minOccurs="0"/>
+    <xs:element name="tasks" type="TasksType"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- TasksType -->
+<xs:complexType name="TasksType">
+  <xs:sequence>
+    <xs:element name="task" type="TaskType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- TaskType -->
+<xs:complexType name="TaskType">
+  <xs:sequence>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="folder" type="xs:string"/>
+    <xs:element name="fileName" type="xs:string"/>
+    <xs:element name="fileType" type="xs:integer"/>
+    <xs:element name="nameTransform" type="xs:integer"/>
+    <xs:element name="namePrefix" type="xs:string" minOccurs="0"/>
+    <xs:element name="nameSuffix" type="xs:string" minOccurs="0"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- TestGroupsType -->
+<xs:complexType name="TestGroupsType">
+  <xs:sequence>
+    <xs:element name="testGroup" type="TestGroupType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- TestGroupType -->
+<xs:complexType name="TestGroupType">
+  <xs:sequence>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="expanded" type="xs:string" minOccurs="0"/>
+    <xs:element name="tests" type="TestsType"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- TestsType -->
+<xs:complexType name="TestsType">
+  <xs:sequence>
+    <xs:element name="test" type="TestType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+<!-- TestType -->
+<xs:complexType name="TestType">
+  <xs:sequence>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="type" type="xs:string"/>
+    <xs:element name="thresholdType" type="xs:string" minOccurs="0"/>
+    <xs:element name="fontSize" type="xs:integer" minOccurs="0"/>
+    <xs:element name="fontWeight" type="xs:integer" minOccurs="0"/>
+  </xs:sequence>
+</xs:complexType>
+
+</xs:schema>
