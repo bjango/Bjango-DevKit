@@ -83,7 +83,7 @@ elementFormDefault="qualified">
     <xs:element name="id" type="xs:string"/>
     <xs:element name="name" type="xs:string"/>
     <xs:element name="profile" type="xs:string"/>
-    <xs:element name="appearance" type="xs:string"/>
+    <xs:element name="appearance" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="color" type="ItemColorType"/>
     <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -96,8 +96,11 @@ elementFormDefault="qualified">
   <xs:sequence>
     <xs:element name="name" type="xs:string"/>
     <xs:element name="type" type="xs:integer"/>
-    <xs:element name="referencedItemId" type="xs:string"/>
-    <xs:element name="subIndex" type="xs:integer"/>
+    <xs:element name="darkType" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="subIndex" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="subIndexDark" type="xs:integer" minOccurs="0" maxOccurs="1"/>
     <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="testPosition" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -195,8 +198,33 @@ elementFormDefault="qualified">
     <xs:element name="nameTransform" type="xs:integer"/>
     <xs:element name="namePrefix" type="xs:string" minOccurs="0"/>
     <xs:element name="nameSuffix" type="xs:string" minOccurs="0"/>
+    <xs:element name="format" type="BuildTaskFormatValues" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="configuration" type="TaskConfigurationType" minOccurs="0" maxOccurs="1"/>
   </xs:sequence>
 </xs:complexType>
+
+<xs:simpleType name="BuildTaskFormatValues">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="cssHex"/>
+        <xs:enumeration value="cssRGBA"/>
+        <xs:enumeration value="cssColor"/>
+        <xs:enumeration value="cssOKLCH"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TaskConfigurationType">
+  <xs:sequence>
+    <xs:element name="assetCatalogSymbols" type="AssetCatalogSymbolValues" minOccurs="0" maxOccurs="1"/>
+  </xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="AssetCatalogSymbolValues">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="notSet"/>
+        <xs:enumeration value="true"/>
+        <xs:enumeration value="false"/>
+    </xs:restriction>
+</xs:simpleType>
 
 <!-- TestGroupsType -->
 <xs:complexType name="TestGroupsType">
