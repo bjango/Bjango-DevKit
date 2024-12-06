@@ -15,7 +15,6 @@ elementFormDefault="qualified">
   </xs:complexType>
 </xs:element>
 
-<!-- ProjectType -->
 <xs:complexType name="ProjectType">
   <xs:sequence>
     <xs:element name="header" type="HeaderType"/>
@@ -26,7 +25,6 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- HeaderType -->
 <xs:complexType name="HeaderType">
   <xs:sequence>
     <xs:element name="version" type="xs:string"/>
@@ -34,14 +32,12 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- SettingsType -->
 <xs:complexType name="SettingsType">
   <xs:sequence>
     <xs:element name="setting" type="SettingType" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- SettingType -->
 <xs:complexType name="SettingType">
   <xs:sequence>
     <xs:element name="key" type="xs:string"/>
@@ -49,7 +45,6 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- ColorItemsType -->
 <xs:complexType name="ColorItemsType">
   <xs:choice minOccurs="0" maxOccurs="unbounded">
     <xs:element name="colorSet" type="ColorSetType"/>
@@ -59,12 +54,13 @@ elementFormDefault="qualified">
   </xs:choice>
 </xs:complexType>
 
-<!-- ColorSetType -->
 <xs:complexType name="ColorSetType">
   <xs:sequence>
     <xs:element name="id" type="xs:string"/>
     <xs:element name="name" type="xs:string"/>
     <xs:element name="profile" type="xs:string"/>
+    <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
     <xs:element name="steps" type="xs:integer"/>
     <xs:element name="interpolation" type="xs:integer"/>
     <xs:element name="type" type="xs:integer"/>
@@ -77,13 +73,13 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- ColorItemType -->
 <xs:complexType name="ColorItemType">
   <xs:sequence>
     <xs:element name="id" type="xs:string"/>
     <xs:element name="name" type="xs:string"/>
     <xs:element name="profile" type="xs:string"/>
-    <xs:element name="appearance" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
     <xs:element name="color" type="ItemColorType"/>
     <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -91,23 +87,29 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- AliasType -->
 <xs:complexType name="AliasType">
   <xs:sequence>
     <xs:element name="name" type="xs:string"/>
     <xs:element name="type" type="xs:integer"/>
-    <xs:element name="darkType" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="typeLightHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="typeDark" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
     <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1"/>
-    <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="subIndex" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="subIndexLightHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="subIndexDark" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="subIndexDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1"/>
     <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1"/>
     <xs:element name="testPosition" type="xs:string" minOccurs="0" maxOccurs="1"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- GroupType -->
 <xs:complexType name="GroupType">
   <xs:sequence>
     <xs:element name="id" type="xs:string"/>
@@ -126,14 +128,23 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- ColorsType -->
+<xs:simpleType name="AppearanceValues">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="none"/>
+        <xs:enumeration value="lightanddark"/>
+        <xs:enumeration value="highContrast"/>
+        <xs:enumeration value="highContrastAuto"/>
+        <xs:enumeration value="lightDarkHighContrast"/>
+        <xs:enumeration value="lightDarkHighContrastAuto"/>
+    </xs:restriction>
+</xs:simpleType>
+
 <xs:complexType name="ColorsType">
   <xs:sequence>
     <xs:element name="color" type="ColorType" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- ColorType -->
 <xs:complexType name="ColorType">
   <xs:sequence>
     <xs:element name="name" type="xs:string"/>
@@ -141,14 +152,12 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- VariantsType -->
 <xs:complexType name="VariantsType">
   <xs:sequence>
     <xs:element name="variant" type="VariantType" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- VariantType -->
 <xs:complexType name="VariantType">
   <xs:sequence>
     <xs:element name="rgba" type="xs:string"/>
@@ -156,21 +165,18 @@ elementFormDefault="qualified">
   <xs:attribute name="type" type="xs:string" use="optional"/>
 </xs:complexType>
 
-<!-- ItemColorType -->
 <xs:complexType name="ItemColorType">
   <xs:sequence>
     <xs:element name="variants" type="VariantsType"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- BuildGroupsType -->
 <xs:complexType name="BuildGroupsType">
   <xs:sequence>
     <xs:element name="buildGroup" type="BuildGroupType" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- BuildGroupType -->
 <xs:complexType name="BuildGroupType">
   <xs:sequence>
     <xs:element name="id" type="xs:string"/>
@@ -180,14 +186,12 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- TasksType -->
 <xs:complexType name="TasksType">
   <xs:sequence>
     <xs:element name="task" type="TaskType" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- TaskType -->
 <xs:complexType name="TaskType">
   <xs:sequence>
     <xs:element name="name" type="xs:string"/>
@@ -226,14 +230,12 @@ elementFormDefault="qualified">
     </xs:restriction>
 </xs:simpleType>
 
-<!-- TestGroupsType -->
 <xs:complexType name="TestGroupsType">
   <xs:sequence>
     <xs:element name="testGroup" type="TestGroupType" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- TestGroupType -->
 <xs:complexType name="TestGroupType">
   <xs:sequence>
     <xs:element name="id" type="xs:string"/>
@@ -243,14 +245,12 @@ elementFormDefault="qualified">
   </xs:sequence>
 </xs:complexType>
 
-<!-- TestsType -->
 <xs:complexType name="TestsType">
   <xs:sequence>
     <xs:element name="test" type="TestType" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
-<!-- TestType -->
 <xs:complexType name="TestType">
   <xs:sequence>
     <xs:element name="name" type="xs:string"/>
