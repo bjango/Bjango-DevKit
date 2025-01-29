@@ -55,6 +55,8 @@
       <xs:element name="numberAlias" type="NumberAliasType" />
       <xs:element name="booleanItem" type="BooleanItemType" />
       <xs:element name="booleanAlias" type="BooleanAliasType" />
+      <xs:element name="stringItem" type="StringItemType" />
+      <xs:element name="stringAlias" type="StringAliasType" />
     </xs:choice>
   </xs:complexType>
 
@@ -102,13 +104,11 @@
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="subIndex" type="xs:integer" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0"
-        maxOccurs="1" />
+      <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="subIndexLightHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="subIndexDark" type="xs:integer" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0"
-        maxOccurs="1" />
+      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="subIndexDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -125,11 +125,9 @@
       <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0"
-        maxOccurs="1" />
+      <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0"
-        maxOccurs="1" />
+      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
@@ -143,11 +141,25 @@
       <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0"
-        maxOccurs="1" />
+      <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0"
-        maxOccurs="1" />
+      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0"  maxOccurs="1" />
+      <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+    <xs:complexType name="StringAliasType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="type" type="xs:integer" />
+      <xs:element name="typeLightHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
+      <xs:element name="typeDark" type="xs:integer" minOccurs="0" maxOccurs="1" />
+      <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
+      <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0"  maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
@@ -206,6 +218,16 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="StringItemType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="string" type="ItemStringType" />
+      <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ColorsType">
     <xs:sequence>
       <xs:element name="color" type="ColorType" maxOccurs="unbounded" />
@@ -240,7 +262,7 @@
   </xs:complexType>
 
   <xs:simpleType name="ValueType">
-    <xs:union memberTypes="xs:decimal xs:boolean" />
+    <xs:union memberTypes="xs:decimal xs:boolean xs:string" />
   </xs:simpleType>
 
   <xs:complexType name="ItemColorType">
@@ -256,6 +278,12 @@
   </xs:complexType>
 
   <xs:complexType name="ItemBooleanType">
+    <xs:sequence>
+      <xs:element name="variants" type="VariantsType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ItemStringType">
     <xs:sequence>
       <xs:element name="variants" type="VariantsType" />
     </xs:sequence>
@@ -308,8 +336,7 @@
 
   <xs:complexType name="TaskConfigurationType">
     <xs:sequence>
-      <xs:element name="assetCatalogSymbols" type="AssetCatalogSymbolValues" minOccurs="0"
-        maxOccurs="1" />
+      <xs:element name="assetCatalogSymbols" type="AssetCatalogSymbolValues" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
 
