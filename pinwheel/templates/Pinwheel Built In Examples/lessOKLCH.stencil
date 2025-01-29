@@ -1,0 +1,65 @@
+{% for item in items %}
+    {% if item.colorItem %}
+@{{ item.name }}: {%+ colorAsCSSOklch item.colorItem.color.light +%};
+        {% if item.colorItem.color.dark %}
+@{{ item.name }}-dark: {%+ colorAsCSSOklch item.colorItem.color.dark +%};
+        {% endif %}
+        {% if item.colorItem.color.highContrast %}
+@{{ item.name }}-high-contrast: {%+ colorAsCSSOklch item.colorItem.color.highContrast +%};
+        {% endif %}
+        {% if item.colorItem.color.darkHighContrast %}
+@{{ item.name }}-dark-high-contrast: {%+ colorAsCSSOklch item.colorItem.color.darkHighContrast +%};
+        {% endif %}
+
+    {% elif item.colorSet %}
+    {% for color in item.colorSet.colors %}
+@{{ item.name}}-{{ color.name }}: {%+ colorAsCSSOklch color.light +%};
+        {% if color.dark %}
+@{{ item.name}}-{{ color.name }}-dark: {%+ colorAsCSSOklch color.dark +%};
+        {% endif %}
+        {% if color.highContrast %}
+@{{ item.name}}-{{ color.name }}-high-contrast: {%+ colorAsCSSOklch color.highContrast +%};
+        {% endif %}
+        {% if color.darkHighContrast %}
+@{{ item.name}}-{{ color.name }}-dark-high-contrast: {%+ colorAsCSSOklch color.darkHighContrast +%};
+        {% endif %}
+    {% endfor %}
+
+    {% elif item.number %}
+@{{ item.name }}: {{ item.number.value.light }};
+        {% if item.number.value.dark %}
+@{{ item.name }}-dark: {{ item.number.value.dark }};
+        {% endif %}
+        {% if item.number.value.highContrast %}
+@{{ item.name }}-high-contrast: {{ item.number.value.highContrast }};
+        {% endif %}
+        {% if item.number.value.darkHighContrast %}
+@{{ item.name }}-dark-high-contrast: {{ item.number.value.darkHighContrast }};
+        {% endif %}
+
+    {% elif item.boolean %}
+@{{ item.name }}: {{ item.boolean.value.light }};
+        {% if item.boolean.value.dark %}
+@{{ item.name }}-dark: {{ item.boolean.value.dark }};
+        {% endif %}
+        {% if item.boolean.value.highContrast %}
+@{{ item.name }}-high-contrast: {{ item.boolean.value.highContrast }};
+        {% endif %}
+        {% if item.boolean.value.darkHighContrast %}
+@{{ item.name }}-dark-high-contrast: {{ item.boolean.value.darkHighContrast }};
+        {% endif %}
+
+    {% elif item.string %}
+@{{ item.name }}: "{{ item.string.value.light }}";
+        {% if item.string.value.dark %}
+@{{ item.name }}-dark: "{{ item.string.value.dark }}";
+        {% endif %}
+        {% if item.string.value.highContrast %}
+@{{ item.name }}-high-contrast: "{{ item.string.value.highContrast }}";
+        {% endif %}
+        {% if item.string.value.darkHighContrast %}
+@{{ item.name }}-dark-high-contrast: "{{ item.string.value.darkHighContrast }}";
+        {% endif %}
+
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,67 @@
+import androidx.compose.ui.graphics.Color
+
+{% for item in items %}
+    {% if item.colorItem %}
+val {{ item.name }} = Color({% colorAsHexARGB item.colorItem.color.light %})
+        {% if item.colorItem.color.dark %}
+val {{ item.name }}Dark = Color({% colorAsHexARGB item.colorItem.color.dark %})
+        {% endif %}
+        {% if item.colorItem.color.highContrast %}
+val {{ item.name }}HighContrast = Color({% colorAsHexARGB item.colorItem.color.highContrast %})
+        {% endif %}
+        {% if item.colorItem.color.darkHighContrast %}
+val {{ item.name }}DarkHighContrast = Color({% colorAsHexARGB item.colorItem.color.darkHighContrast %})
+        {% endif %}
+
+    {% elif item.colorSet %}
+        {% for color in item.colorSet.colors %}
+val {{ item.name }}{{ color.name }} = Color({% colorAsHexARGB color.light %})
+            {% if color.dark %}
+val {{ item.name }}{{ color.name }}Dark = Color({% colorAsHexARGB color.dark %})
+            {% endif %}
+            {% if color.highContrast %}
+val {{ item.name }}{{ color.name }}HighContrast = Color({% colorAsHexARGB color.highContrast %})
+            {% endif %}
+            {% if color.darkHighContrast %}
+val {{ item.name }}{{ color.name }}DarkHighContrast = Color({% colorAsHexARGB color.darkHighContrast %})
+            {% endif %}
+        {% endfor %}
+
+    {% elif item.number %}
+val {{ item.name }} = {{ item.number.value.light }}
+        {% if item.number.value.dark %}
+val {{ item.name }}Dark = {{ item.number.value.dark }}
+        {% endif %}
+        {% if item.number.value.highContrast %}
+val {{ item.name }}HighContrast = {{ item.number.value.highContrast }}
+        {% endif %}
+        {% if item.number.value.darkHighContrast %}
+val {{ item.name }}DarkHighContrast = {{ item.number.value.darkHighContrast }}
+        {% endif %}
+
+    {% elif item.boolean %}
+val {{ item.name }} = {{ item.boolean.value.light }}
+        {% if item.boolean.value.dark %}
+val {{ item.name }}Dark = {{ item.boolean.value.dark }}
+        {% endif %}
+        {% if item.boolean.value.highContrast %}
+val {{ item.name }}HighContrast = {{ item.boolean.value.highContrast }}
+        {% endif %}
+        {% if item.boolean.value.darkHighContrast %}
+val {{ item.name }}DarkHighContrast = {{ item.boolean.value.darkHighContrast }}
+        {% endif %}
+
+    {% elif item.string %}
+val {{ item.name }} = "{{ item.string.value.light }}"
+        {% if item.string.value.dark %}
+val {{ item.name }}Dark = "{{ item.string.value.dark }}"
+        {% endif %}
+        {% if item.string.value.highContrast %}
+val {{ item.name }}HighContrast = "{{ item.string.value.highContrast }}"
+        {% endif %}
+        {% if item.string.value.darkHighContrast %}
+val {{ item.name }}DarkHighContrast = "{{ item.string.value.darkHighContrast }}"
+        {% endif %}
+
+    {% endif %}
+{% endfor %}

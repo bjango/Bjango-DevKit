@@ -1,0 +1,119 @@
+The data structure availble in templates is a list of `items` at the top level. There is also a `exportFileName` item that corresponds to the file name in the build task. You can iterate through all the items like this:
+```
+{% for item in items %}
+```
+
+Each item has a `name` and can be one of 5 types a `colorItem`, `colorSet`, `number`, `string` or `boolean`. If you wanted to see if an item was a `colorItem` you can use this syntax:
+```
+{% if item.colorItem %}
+```
+And if you wanted to see if it is a number, you'd use
+```
+{% if item.number %}
+```
+
+A `colorItem` has a `color` which can have `light`, `dark`, `highContrast` and `darkHighContrast` appearances. If a color has no appearances, then only the `light` value will be set. You can access it like this:
+```
+{% colorAsCSSColor item.colorItem.color.light %}
+```
+
+The formatter above is a custom tag. There are lots of format options available for colors. They correspond to all the formats you can use in the Pinwheel color picker:
+```
+colorAsFloatRGBA, colorAsFloatHSVA, 
+colorAsCSSHexRGB, colorAsCSSRgb, colorAsCSSColor, colorAsCSSOklch, 
+colorAsHex, colorAsHexRGBA, colorAsHexARGB, 
+colorAsSwiftUIColor, colorAsSwiftUIKitColor, colorAsSwiftAppKitColor, colorAsSwiftUIColorHSBA, colorAsSwiftUIKitColorHSBA, colorAsSwiftAppKitColorHSBA
+```
+
+For `number`, `string` and `boolean` types you can access the `value` of each in a similar way:
+```
+{{ number.value.light }}
+{{ boolean.value.light }}
+{{ string.value.light }}
+```
+
+Anything you type into the template that doesn't have use the `{{}}` and `{%%}` tags will come out as text. For example:
+```
+{% for item in items %}
+This item is called {{ item.name}}.
+{% endfor %}
+```
+In a document with 3 items: Yellow, Green and Important would print:
+```
+This item is called Yellow.
+This item is called Green.
+This item is called Important.
+```
+
+The full data structure is below for the technically minded:
+```swift
+struct TemplateItem: Encodable {
+    let name: String
+    var colorItem: TemplateColorItem?
+    var colorSet: TemplateColorSetItem?
+    var number: TemplateNumberItem?
+    var boolean: TemplateBooleanItem?
+    var string: TemplateStringItem?
+}
+
+struct TemplateColorSetItem: Encodable {
+    let colors: [TemplateThemedColor]
+}
+
+struct TemplateStringItem: Encodable {
+    let value: TemplateThemedString
+}
+
+struct TemplateNumberItem: Encodable {
+    let value: TemplateThemedNumber
+}
+
+struct TemplateBooleanItem: Encodable {
+    let value: TemplateThemedBoolean
+}
+
+struct TemplateColorItem: Encodable {
+    var color: TemplateThemedColor
+}
+
+struct TemplateThemedColor: Encodable {
+    var light: TemplateRGBAColor
+    var highContrast: TemplateRGBAColor?
+    var dark: TemplateRGBAColor?
+    var darkHighContrast: TemplateRGBAColor?
+    var name: String?
+}
+
+struct TemplateThemedString: Encodable {
+    var light: String
+    var highContrast: String?
+    var dark: String?
+    var darkHighContrast: String?
+}
+
+struct TemplateThemedNumber: Encodable {
+    var light: Double
+    var highContrast: Double?
+    var dark: Double?
+    var darkHighContrast: Double?
+}
+
+struct TemplateThemedBoolean: Encodable {
+    var light: Bool
+    var highContrast: Bool?
+    var dark: Bool?
+    var darkHighContrast: Bool?
+}
+
+struct TemplateRGBAColor: Encodable {
+    let red: Double
+    let green: Double
+    let blue: Double
+    let alpha: Double
+    let colorSpace: TemplateColorSpace
+}
+
+enum TemplateColorSpace: String, Encodable {
+    case sRGB, displayP3, extendedSRGB
+}
+```

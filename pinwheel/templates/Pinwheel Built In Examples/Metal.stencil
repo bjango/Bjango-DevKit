@@ -1,0 +1,60 @@
+{% for item in items %}
+    {% if item.colorItem %}
+constant constexpr auto {{ item.name }} = float4({{ item.colorItem.color.light.red }}, {{ item.colorItem.color.light.green }}, {{ item.colorItem.color.light.blue }}, {{ item.colorItem.color.light.alpha}});
+        {% if item.colorItem.color.dark %}
+constant constexpr auto {{ item.name }}Dark = float4({{ item.colorItem.color.dark.red }}, {{ item.colorItem.color.dark.green }}, {{ item.colorItem.color.dark.blue }}, {{ item.colorItem.color.dark.alpha }});
+        {% endif %}
+        {% if item.colorItem.color.highContrast %}
+constant constexpr auto {{ item.name }}HighContrast = float4({{ item.colorItem.color.highContrast.red }}, {{ item.colorItem.color.highContrast.green }}, {{ item.colorItem.color.highContrast.blue }}, {{ item.colorItem.color.highContrast.alpha }});
+        {% endif %}
+        {% if item.colorItem.color.darkHighContrast %}
+constant constexpr auto {{ item.name }}DarkHighContrast = float4({{item.colorItem.color.darkHighContrast.red }}, {{ item.colorItem.color.darkHighContrast.green }}, {{item.colorItem.color.darkHighContrast.blue }}, {{ item.colorItem.color.darkHighContrast.alpha }});
+        {% endif %}
+    {% elif item.colorSet %}
+        {% for color in item.colorSet.colors %}
+constant constexpr auto {{ item.name }}{{ color.name }} = float4({{ color.light.red }}, {{ color.light.green }}, {{ color.light.blue}}, {{ color.light.alpha}});
+            {% if color.dark %}
+constant constexpr auto {{ item.name }}{{ color.name }}Dark = float4({{ color.dark.red }}, {{ color.dark.green }}, {{ color.dark.blue}}, {{ color.dark.alpha }});
+            {% endif %}
+            {% if color.highContrast %}
+constant constexpr auto {{ item.name }}{{ color.name }}HighContrast = float4({{ color.highContrast.red }}, {{ color.highContrast.green }}, {{ color.highContrast.blue }}, {{ color.highContrast.alpha}});
+            {% endif %}
+            {% if color.darkHighContrast %}
+constant constexpr auto {{ item.name }}{{ color.name }}DarkHighContrast = float4({{ color.darkHighContrast.red }}, {{ color.darkHighContrast.green}}, {{ color.darkHighContrast.blue }}, {{ color.darkHighContrast.alpha}});
+            {% endif %}
+        {% endfor %}
+    {% elif item.number %}
+constant constexpr auto {{ item.name }} = {{ item.number.value.light }};
+        {% if item.number.value.dark %}
+constant constexpr auto {{ item.name }}Dark = {{ item.number.value.dark }};
+        {% endif %}
+        {% if item.number.value.highContrast %}
+constant constexpr auto {{ item.name }}HighContrast = {{ item.number.value.highContrast }};
+        {% endif %}
+        {% if item.number.value.darkHighContrast %}
+constant constexpr auto {{ item.name }}DarkHighContrast = {{ item.number.value.darkHighContrast }};
+        {% endif %}
+    {% elif item.boolean %}
+constant constexpr auto {{ item.name }} = {{ item.boolean.value.light }};
+        {% if item.boolean.value.dark %}
+constant constexpr auto {{ item.name }}Dark = {{ item.boolean.value.dark }};
+        {% endif %}
+        {% if item.boolean.value.highContrast %}
+constant constexpr auto {{ item.name }}HighContrast = {{ item.boolean.value.highContrast }};
+        {% endif %}
+        {% if item.boolean.value.darkHighContrast %}
+constant constexpr auto {{ item.name }}DarkHighContrast = {{ item.boolean.value.darkHighContrast }};
+        {% endif %}
+    {% elif item.string %}
+const char* {{ item.name }} = "{{ item.string.value.light }}";
+        {% if item.string.value.dark %}
+const char* {{ item.name }}Dark = "{{ item.string.value.dark }}";
+        {% endif %}
+        {% if item.string.value.highContrast %}
+const char* {{ item.name }}HighContrast = "{{ item.string.value.highContrast }}";
+        {% endif %}
+        {% if item.string.value.darkHighContrast %}
+const char* {{ item.name }}DarkHighContrast = "{{ item.string.value.darkHighContrast }}";
+        {% endif %}
+    {% endif %}
+{% endfor %}
