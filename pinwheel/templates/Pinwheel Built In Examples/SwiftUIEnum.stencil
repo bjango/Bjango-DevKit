@@ -4,67 +4,67 @@ import UIKit
 enum {{ exportFileName }} {
 {% for item in items %}
     {% if item.colorItem %}
-    let {{ item.name }} = {%+ colorAsSwiftUIColor item.colorItem.color.light +%} 
+    let {%+ codeSafeName item.name +%} = {%+ colorAsSwiftUIColor item.colorItem.color.light +%} 
         {% if item.colorItem.color.dark %}
-    let {{ item.name }}Dark = {%+ colorAsSwiftUIColor item.colorItem.color.dark +%} 
+    let {%+ codeSafeName item.name %}Dark = {%+ colorAsSwiftUIColor item.colorItem.color.dark +%} 
         {% endif %}
         {% if item.colorItem.color.highContrast %}
-    let {{ item.name }}HighContrast = {%+ colorAsSwiftUIColor item.colorItem.color.highContrast +%} 
+    let {%+ codeSafeName item.name %}HighContrast = {%+ colorAsSwiftUIColor item.colorItem.color.highContrast +%} 
         {% endif %}
         {% if item.colorItem.color.darkHighContrast %}
-    let {{ item.name }}DarkHighContrast = {%+ colorAsSwiftUIColor item.colorItem.color.darkHighContrast +%} 
+    let {%+ codeSafeName item.name %}DarkHighContrast = {%+ colorAsSwiftUIColor item.colorItem.color.darkHighContrast +%} 
         {% endif %}
 
     {% elif item.colorSet %}
-    enum {{item.name}} {
+    enum {{ item.name|capitalize }} {
         {% for color in item.colorSet.colors %}
-        let {{ color.name }} = {%+ colorAsSwiftUIColor color.light +%}
+        let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.light +%}
             {% if color.dark %}
-        let {{ color.name }} = {%+ colorAsSwiftUIColor color.dark +%}
+        let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.dark +%}
             {% endif %}
             {% if color.highContrast %}
-        let {{ color.name }} = {%+ colorAsSwiftUIColor color.highContrast +%}
+        let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.highContrast +%}
             {% endif %}
             {% if color.darkHighContrast %}
-        let {{ color.name }} = {%+ colorAsSwiftUIColor color.darkHighContrast +%}   
+        let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.darkHighContrast +%}   
             {% endif %}
         {% endfor %}
     }
 
     {% elif item.number %}
-    let {{ item.name }} = {{ item.number.value.light }}
+    let {%+ codeSafeName item.name +%} = {{ item.number.value.light }}
         {% if item.number.value.dark %}
-    let {{ item.name }}Dark = {{ item.number.value.dark }}
+    let {%+ codeSafeName item.name %}Dark = {{ item.number.value.dark }}
         {% endif %}
         {% if item.number.value.highContrast %}
-    let {{ item.name }}HighContrast = {{ item.number.value.highContrast }}
+    let {%+ codeSafeName item.name %}HighContrast = {{ item.number.value.highContrast }}
         {% endif %}
         {% if item.number.value.darkHighContrast %}
-    let {{ item.name }}DarkHighContrast = {{ item.number.value.darkHighContrast }}
+    let {%+ codeSafeName item.name %}DarkHighContrast = {{ item.number.value.darkHighContrast }}
         {% endif %}
 
     {% elif item.boolean %}
-    let {{ item.name }} = {{ item.boolean.value.light }}
+    let {%+ codeSafeName item.name +%} = {{ item.boolean.value.light }}
         {% if item.boolean.value.dark %}
-    let {{ item.name }}Dark = {{ item.boolean.value.dark }}
+    let {%+ codeSafeName item.name %}Dark = {{ item.boolean.value.dark }}
         {% endif %}
         {% if item.boolean.value.highContrast %}
-    let {{ item.name }}HighContrast = {{ item.boolean.value.highContrast }}
+    let {%+ codeSafeName item.name %}HighContrast = {{ item.boolean.value.highContrast }}
         {% endif %}
         {% if item.boolean.value.darkHighContrast %}
-    let {{ item.name }}DarkHighContrast = {{ item.boolean.value.darkHighContrast }}
+    let {%+ codeSafeName item.name %}DarkHighContrast = {{ item.boolean.value.darkHighContrast }}
         {% endif %}
 
     {% elif item.string %}
-    let {{ item.name }} = "{{ item.string.value.light }}"
+    let {%+ codeSafeName item.name +%} = "{{ item.string.value.light }}"
         {% if item.string.value.dark %}
-    let {{ item.name }}Dark = "{{ item.string.value.dark }}"
+    let {%+ codeSafeName item.name %}Dark = "{{ item.string.value.dark }}"
         {% endif %}
         {% if item.string.value.highContrast %}
-    let {{ item.name }}HighContrast = "{{ item.string.value.highContrast }}"
+    let {%+ codeSafeName item.name %}HighContrast = "{{ item.string.value.highContrast }}"
         {% endif %}
         {% if item.string.value.darkHighContrast %}
-    let {{ item.name }}DarkHighContrast = "{{ item.string.value.darkHighContrast }}"
+    let {%+ codeSafeName item.name %}DarkHighContrast = "{{ item.string.value.darkHighContrast }}"
         {% endif %}
 
     {% endif %}
