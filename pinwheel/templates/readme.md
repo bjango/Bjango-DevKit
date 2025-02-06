@@ -48,7 +48,7 @@ colorAsSwiftAppKitColorHSBA
 
 There is also a formatter for creating safe variable names in most programming languages (things like making sure it doesn't start with a number, removing spaces, etc):
 ```
-codeSafeEnum
+codeSafeName
 ```
 
 You can combine multiple formatters, for example say you wanted to create a SwiftUI Color variable in a template, from a color:
