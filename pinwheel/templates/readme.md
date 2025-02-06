@@ -1,8 +1,3 @@
-+++
-title = "Templates"
-layout = "help-pinwheel"
-+++
-
 Pinwheel’s [exporting](/help/pinwheel/exporting/) supports a wide range of common formats. If you need a format we don’t support, a custom template can be used.
 
 Custom templates use the [Stencil template language](https://stencil.fuller.li/en/latest/templates.html).
