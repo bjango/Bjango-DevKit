@@ -46,6 +46,15 @@ colorAsSwiftUIKitColorHSBA,
 colorAsSwiftAppKitColorHSBA
 ```
 
+Additionally there is a formatter which can generate `light-dark()` function calls to use in CSS, called `lightDark`. You can use it like this:
+```
+{%+ lightDark color.light color.dark cssColor +%}
+```
+There are 3 parameters to this formatter, the first two are required, the last is optional
+1. The light color you want to use
+2. The dark color you want to use
+3. The CSS format you want these colors to be output in. This can be `cssHex` (eg: `#FFFFFF`), `cssRgb` (eg: `rgb(255, 255, 255)`), `cssColor` (eg: `color(srgb 1 1 1)`) or `cssOKLCH` (eg: `oklch(100.0% 0.0 89.9 / 1.0)`). If none is specified `cssColor` will be used.
+
 There is also a formatter for creating safe variable names in most programming languages (things like making sure it doesn't start with a number, removing spaces, etc):
 ```
 codeSafeName
