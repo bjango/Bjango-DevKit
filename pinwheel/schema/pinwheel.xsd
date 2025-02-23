@@ -69,6 +69,8 @@
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="steps" type="xs:integer" />
       <xs:element name="interpolation" type="xs:integer" />
+      <xs:element name="curve" type="xs:integer" minOccurs="0" maxOccurs="1" />
+      <xs:element name="curveAmount" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="type" type="xs:integer" />
       <xs:element name="middle" type="xs:decimal" />
       <xs:element name="naming" type="xs:integer" />
