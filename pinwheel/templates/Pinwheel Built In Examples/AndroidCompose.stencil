@@ -12,7 +12,6 @@ val {{ item.name }}HighContrast = Color({% colorAsHexARGB item.colorItem.color.h
         {% if item.colorItem.color.darkHighContrast %}
 val {{ item.name }}DarkHighContrast = Color({% colorAsHexARGB item.colorItem.color.darkHighContrast %})
         {% endif %}
-
     {% elif item.colorSet %}
         {% for color in item.colorSet.colors %}
 val {{ item.name }}{{ color.name }} = Color({% colorAsHexARGB color.light %})
@@ -26,7 +25,6 @@ val {{ item.name }}{{ color.name }}HighContrast = Color({% colorAsHexARGB color.
 val {{ item.name }}{{ color.name }}DarkHighContrast = Color({% colorAsHexARGB color.darkHighContrast %})
             {% endif %}
         {% endfor %}
-
     {% elif item.number %}
 val {{ item.name }} = {{ item.number.value.light }}
         {% if item.number.value.dark %}
@@ -38,7 +36,6 @@ val {{ item.name }}HighContrast = {{ item.number.value.highContrast }}
         {% if item.number.value.darkHighContrast %}
 val {{ item.name }}DarkHighContrast = {{ item.number.value.darkHighContrast }}
         {% endif %}
-
     {% elif item.boolean %}
 val {{ item.name }} = {{ item.boolean.value.light }}
         {% if item.boolean.value.dark %}
@@ -50,7 +47,6 @@ val {{ item.name }}HighContrast = {{ item.boolean.value.highContrast }}
         {% if item.boolean.value.darkHighContrast %}
 val {{ item.name }}DarkHighContrast = {{ item.boolean.value.darkHighContrast }}
         {% endif %}
-
     {% elif item.string %}
 val {{ item.name }} = "{{ item.string.value.light }}"
         {% if item.string.value.dark %}
@@ -62,6 +58,5 @@ val {{ item.name }}HighContrast = "{{ item.string.value.highContrast }}"
         {% if item.string.value.darkHighContrast %}
 val {{ item.name }}DarkHighContrast = "{{ item.string.value.darkHighContrast }}"
         {% endif %}
-
     {% endif %}
 {% endfor %}
