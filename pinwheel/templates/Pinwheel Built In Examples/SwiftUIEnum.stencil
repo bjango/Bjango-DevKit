@@ -19,13 +19,13 @@ enum {{ exportFileName|capitalize }} {
         {% for color in item.colorSet.colors %}
         static let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.light +%}
             {% if color.dark %}
-        static let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.dark +%}
+        static let {%+ codeSafeName color.name +%}Dark = {%+ colorAsSwiftUIColor color.dark +%}
             {% endif %}
             {% if color.highContrast %}
-        static let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.highContrast +%}
+        static let {%+ codeSafeName color.name +%}HighContrast = {%+ colorAsSwiftUIColor color.highContrast +%}
             {% endif %}
             {% if color.darkHighContrast %}
-        static let {%+ codeSafeName color.name +%} = {%+ colorAsSwiftUIColor color.darkHighContrast +%}   
+        static let {%+ codeSafeName color.name +%}DarkHighContrast = {%+ colorAsSwiftUIColor color.darkHighContrast +%}   
             {% endif %}
         {% endfor %}
     }
@@ -62,6 +62,46 @@ enum {{ exportFileName|capitalize }} {
         {% if item.string.value.darkHighContrast %}
     static let {%+ codeSafeName item.name %}DarkHighContrast = "{{ item.string.value.darkHighContrast }}"
         {% endif %}
+    {% elif item.shadowItem %}
+    static let {{ item.name }} = {%+ shadowAsSwiftUIPinwheelShadow item.shadowItem.shadow.light +%} 
+        {% if item.shadowItem.shadow.dark %}
+    static let {{ item.name }}Dark = {%+ shadowAsSwiftUIPinwheelShadow item.shadowItem.shadow.dark +%} 
+        {% endif %}
+        {% if item.shadowItem.shadow.highContrast %}
+    static let {{ item.name }}HighContrast = {%+ shadowAsSwiftUIPinwheelShadow item.shadowItem.shadow.highContrast +%} 
+        {% endif %}
+        {% if item.shadowItem.shadow.darkHighContrast %}
+    static let {{ item.name }}DarkHighContrast = {%+ shadowAsSwiftUIPinwheelShadow item.shadowItem.shadow.darkHighContrast +%} 
+        {% endif %}
+    {% elif item.shadowSet %}
+    enum {{ item.name|capitalize }} {
+        {% for shadow in item.shadowSet.shadows %}
+        static let {%+ codeSafeName shadow.name +%} = {%+ shadowAsSwiftUIPinwheelShadow shadow.light +%} 
+            {% if shadow.dark %}
+        static let {%+ codeSafeName shadow.name +%}Dark = {%+ shadowAsSwiftUIPinwheelShadow shadow.dark +%} 
+            {% endif %}
+            {% if shadow.highContrast %}
+        static let {%+ codeSafeName shadow.name +%}HighContrast = {%+ shadowAsSwiftUIPinwheelShadow shadow.highContrast +%} 
+            {% endif %}
+            {% if shadow.darkHighContrast %}
+        static let {%+ codeSafeName shadow.name +%}DarkHighContrast = {%+ shadowAsSwiftUIPinwheelShadow shadow.darkHighContrast +%}   
+            {% endif %}
+        {% endfor %}
+    }
     {% endif %}
 {% endfor %}
+}
+
+struct PinwheelShadow {
+    static let blurScaleFactor = 0.5 // .shadow() swiftUI scale factor so the blur matches CSS box shadows and Pinwheel previews
+
+    let x: Double
+    let y: Double
+    let blur: Double
+    let spread: Double
+    let color: Color
+    
+    var swiftUIScaledBlur: Double {
+        blur * Self.blurScaleFactor
+    }
 }

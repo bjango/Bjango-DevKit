@@ -56,5 +56,29 @@ ${{ item.name }}-high-contrast: "{{ item.string.value.highContrast }}";
         {% if item.string.value.darkHighContrast %}
 ${{ item.name }}-dark-high-contrast: "{{ item.string.value.darkHighContrast }}";
         {% endif %}
+    {% elif item.shadowItem %}
+${{ item.name }}: {%+ shadowAsCSSBoxShadow item.shadowItem.shadow.light +%};
+        {% if item.shadowItem.shadow.dark %}
+${{ item.name }}-dark: {%+ shadowAsCSSBoxShadow item.shadowItem.shadow.dark +%};
+        {% endif %}
+        {% if item.shadowItem.shadow.highContrast %}
+${{ item.name }}-high-contrast: {%+ shadowAsCSSBoxShadow item.shadowItem.shadow.highContrast +%};
+        {% endif %}
+        {% if item.shadowItem.shadow.darkHighContrast %}
+${{ item.name }}-dark-high-contrast: {%+ shadowAsCSSBoxShadow item.shadowItem.shadow.darkHighContrast +%};
+        {% endif %}
+    {% elif item.shadowSet %}
+        {% for shadow in item.shadowSet.shadows %}
+${{ item.name }}-{{ shadow.name }}: {%+ shadowAsCSSBoxShadow shadow.light +%};
+            {% if shadow.dark %}
+${{ item.name }}-{{ shadow.name }}-dark: {%+ shadowAsCSSBoxShadow shadow.dark +%};
+            {% endif %}
+            {% if shadow.highContrast %}
+${{ item.name }}-{{ shadow.name }}-high-contrast: {%+ shadowAsCSSBoxShadow shadow.highContrast +%};
+            {% endif %}
+            {% if shadow.darkHighContrast %}
+${{ item.name }}-{{ shadow.name }}-dark-high-contrast: {%+ shadowAsCSSBoxShadow shadow.darkHighContrast +%};
+            {% endif %}
+        {% endfor %}
     {% endif %}
 {% endfor %}

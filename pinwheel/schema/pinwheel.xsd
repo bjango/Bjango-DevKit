@@ -49,7 +49,7 @@
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="colorSet" type="ColorSetType" />
       <xs:element name="colorItem" type="ColorItemType" />
-      <xs:element name="alias" type="AliasType" />
+      <xs:element name="alias" type="SetAliasType" />
       <xs:element name="group" type="GroupType" />
       <xs:element name="numberItem" type="NumberItemType" />
       <xs:element name="numberAlias" type="NumberAliasType" />
@@ -57,6 +57,9 @@
       <xs:element name="booleanAlias" type="BooleanAliasType" />
       <xs:element name="stringItem" type="StringItemType" />
       <xs:element name="stringAlias" type="StringAliasType" />
+      <xs:element name="shadowItem" type="ShadowItemType" />
+      <xs:element name="shadowSet" type="ShadowSetType" />
+      <xs:element name="shadowAlias" type="SetAliasType" />
     </xs:choice>
   </xs:complexType>
 
@@ -95,7 +98,21 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="AliasType">
+  <xs:complexType name="ShadowItemType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="profile" type="xs:string" />
+      <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
+      <xs:element name="shadow" type="ItemShadowType" />
+      <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="testPosition" type="xs:string" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SetAliasType">
     <xs:sequence>
       <xs:element name="name" type="xs:string" />
       <xs:element name="type" type="xs:integer" />
@@ -145,12 +162,12 @@
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0"  maxOccurs="1" />
+      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
 
-    <xs:complexType name="StringAliasType">
+  <xs:complexType name="StringAliasType">
     <xs:sequence>
       <xs:element name="name" type="xs:string" />
       <xs:element name="type" type="xs:integer" />
@@ -161,8 +178,29 @@
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
-      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0"  maxOccurs="1" />
+      <xs:element name="referencedItemIdDarkHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ShadowSetType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="profile" type="xs:string" />
+      <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
+      <xs:element name="steps" type="xs:integer" />
+      <xs:element name="interpolation" type="xs:integer" />
+      <xs:element name="curve" type="xs:integer" minOccurs="0" maxOccurs="1" />
+      <xs:element name="curveAmount" type="xs:decimal" minOccurs="0" maxOccurs="1" />
+      <xs:element name="type" type="xs:integer" />
+      <xs:element name="middle" type="xs:decimal" />
+      <xs:element name="naming" type="xs:integer" />
+      <xs:element name="shadows" type="ShadowsType" />
+      <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
+      <xs:element name="testPosition" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
 
@@ -175,10 +213,17 @@
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="colorSet" type="ColorSetType" />
         <xs:element name="colorItem" type="ColorItemType" />
-        <xs:element name="alias" type="AliasType" />
+        <xs:element name="alias" type="SetAliasType" />
         <xs:element name="group" type="GroupType" />
         <xs:element name="numberItem" type="NumberItemType" />
         <xs:element name="numberAlias" type="NumberAliasType" />
+        <xs:element name="booleanItem" type="BooleanItemType" />
+        <xs:element name="booleanAlias" type="BooleanAliasType" />
+        <xs:element name="stringItem" type="StringItemType" />
+        <xs:element name="stringAlias" type="StringAliasType" />
+        <xs:element name="shadowItem" type="ShadowItemType" />
+        <xs:element name="shadowSet" type="ShadowSetType" />
+        <xs:element name="shadowAlias" type="SetAliasType" />
       </xs:choice>
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="testGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -230,6 +275,19 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ShadowsType">
+    <xs:sequence>
+      <xs:element name="shadow" type="ShadowType" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ShadowType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="variants" type="VariantsType" />
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ColorsType">
     <xs:sequence>
       <xs:element name="color" type="ColorType" maxOccurs="unbounded" />
@@ -259,6 +317,17 @@
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
+      <xs:element name="shadowDetails" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="x" type="xs:decimal" />
+            <xs:element name="y" type="xs:decimal" />
+            <xs:element name="blur" type="xs:decimal" />
+            <xs:element name="spread" type="xs:decimal" />
+            <xs:element name="colorRgba" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:choice>
     <xs:attribute name="type" type="xs:string" use="optional" />
   </xs:complexType>
@@ -268,6 +337,12 @@
   </xs:simpleType>
 
   <xs:complexType name="ItemColorType">
+    <xs:sequence>
+      <xs:element name="variants" type="VariantsType" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ItemShadowType">
     <xs:sequence>
       <xs:element name="variants" type="VariantsType" />
     </xs:sequence>

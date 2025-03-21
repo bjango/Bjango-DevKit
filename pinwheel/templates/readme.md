@@ -8,7 +8,7 @@ The data structure availble in templates is a list of `items` at the top level. 
 {% for item in items %}
 ```
 
-Each item has a `name` and can be one of 5 types a `colorItem`, `colorSet`, `number`, `string` or `boolean`. If you wanted to see if an item was a `colorItem` you can use this syntax:
+Each item has a `name` and can be one of 7 types a `colorItem`, `colorSet`, `number`, `string`, `boolean`, `shadowItem` or `shadowSet`. If you wanted to see if an item was a `colorItem` you can use this syntax:
 
 ```
 {% if item.colorItem %}
@@ -58,6 +58,15 @@ There are 3 parameters to this formatter, the first two are required, the last i
 There is also a formatter for creating safe variable names in most programming languages (things like making sure it doesn't start with a number, removing spaces, etc):
 ```
 codeSafeName
+```
+
+We also have formatters for shadows:
+```
+shadowAsCSSBoxShadow
+shadowAsSwiftUIPinwheelShadow
+shadowAsSwiftAppKitPinwheelShadow
+shadowAsSwiftUIKitPinwheelShadow
+shadowAsKotlinPinwheelShadow
 ```
 
 You can combine multiple formatters, for example say you wanted to create a SwiftUI Color variable in a template, from a color:

@@ -56,5 +56,32 @@ const char* {{ item.name }}HighContrast = "{{ item.string.value.highContrast }}"
         {% if item.string.value.darkHighContrast %}
 const char* {{ item.name }}DarkHighContrast = "{{ item.string.value.darkHighContrast }}";
         {% endif %}
+    {% elif item.shadowItem %}
+constant constexpr auto {{ item.name }}XOffset = {{ item.shadowItem.shadow.light.x }};
+constant constexpr auto {{ item.name }}YOffset = {{ item.shadowItem.shadow.light.y }};
+constant constexpr auto {{ item.name }}Blur = {{ item.shadowItem.shadow.light.blur }};
+constant constexpr auto {{ item.name }}Spread = {{ item.shadowItem.shadow.light.spread }};
+constant constexpr auto {{ item.name }}Color = float4({{ item.shadowItem.shadow.light.color.red }}, {{ item.shadowItem.shadow.light.color.green }}, {{ item.shadowItem.shadow.light.color.blue}}, {{ item.shadowItem.shadow.light.color.alpha}});
+        {% if item.shadowItem.shadow.dark %}
+constant constexpr auto {{ item.name }}DarkXOffset = {{ item.shadowItem.shadow.dark.x }};
+constant constexpr auto {{ item.name }}DarkYOffset = {{ item.shadowItem.shadow.dark.y }};
+constant constexpr auto {{ item.name }}DarkBlur = {{ item.shadowItem.shadow.dark.blur }};
+constant constexpr auto {{ item.name }}DarkSpread = {{ item.shadowItem.shadow.dark.spread }};
+constant constexpr auto {{ item.name }}DarkColor = float4({{ item.shadowItem.shadow.dark.color.red }}, {{ item.shadowItem.shadow.dark.color.green }}, {{ item.shadowItem.shadow.dark.color.blue}}, {{ item.shadowItem.shadow.dark.color.alpha}});
+        {% endif %}
+        {% if item.shadowItem.shadow.highContrast %}
+constant constexpr auto {{ item.name }}HighContrastXOffset = {{ item.shadowItem.shadow.highContrast.x }};
+constant constexpr auto {{ item.name }}HighContrastYOffset = {{ item.shadowItem.shadow.highContrast.y }};
+constant constexpr auto {{ item.name }}HighContrastBlur = {{ item.shadowItem.shadow.highContrast.blur }};
+constant constexpr auto {{ item.name }}HighContrastSpread = {{ item.shadowItem.shadow.highContrast.spread }};
+constant constexpr auto {{ item.name }}HighContrastColor = float4({{ item.shadowItem.shadow.highContrast.color.red }}, {{ item.shadowItem.shadow.highContrast.color.green }}, {{ item.shadowItem.shadow.highContrast.color.blue}}, {{ item.shadowItem.shadow.highContrast.color.alpha}});
+        {% endif %}
+        {% if item.shadowItem.shadow.darkHighContrast %}
+constant constexpr auto {{ item.name }}DarkHighContrastXOffset = {{ item.shadowItem.shadow.darkHighContrast.x }};
+constant constexpr auto {{ item.name }}DarkHighContrastYOffset = {{ item.shadowItem.shadow.darkHighContrast.y }};
+constant constexpr auto {{ item.name }}DarkHighContrastBlur = {{ item.shadowItem.shadow.darkHighContrast.blur }};
+constant constexpr auto {{ item.name }}DarkHighContrastSpread = {{ item.shadowItem.shadow.darkHighContrast.spread }};
+constant constexpr auto {{ item.name }}DarkHighContrastColor = float4({{ item.shadowItem.shadow.darkHighContrast.color.red }}, {{ item.shadowItem.shadow.darkHighContrast.color.green }}, {{ item.shadowItem.shadow.darkHighContrast.color.blue}}, {{ item.shadowItem.shadow.darkHighContrast.color.alpha}});
+        {% endif %}
     {% endif %}
 {% endfor %}

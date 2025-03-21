@@ -56,5 +56,32 @@ const char* {{ item.name }}HighContrast = "{{ item.string.value.highContrast }}"
         {% if item.string.value.darkHighContrast %}
 const char* {{ item.name }}DarkHighContrast = "{{ item.string.value.darkHighContrast }}";
         {% endif %}
+    {% elif item.shadowItem %}
+const float {{ item.name }}XOffset = {{ item.shadowItem.shadow.light.x }};
+const float {{ item.name }}YOffset = {{ item.shadowItem.shadow.light.y }};
+const float {{ item.name }}Blur = {{ item.shadowItem.shadow.light.blur }};
+const float {{ item.name }}Spread = {{ item.shadowItem.shadow.light.spread }};
+const vec4 {{ item.name }}Color = float4({{ item.shadowItem.shadow.light.color.red }}, {{ item.shadowItem.shadow.light.color.green }}, {{ item.shadowItem.shadow.light.color.blue}}, {{ item.shadowItem.shadow.light.color.alpha}});
+        {% if item.shadowItem.shadow.dark %}
+const float {{ item.name }}DarkXOffset = {{ item.shadowItem.shadow.dark.x }};
+const float {{ item.name }}DarkYOffset = {{ item.shadowItem.shadow.dark.y }};
+const float {{ item.name }}DarkBlur = {{ item.shadowItem.shadow.dark.blur }};
+const float {{ item.name }}DarkSpread = {{ item.shadowItem.shadow.dark.spread }};
+const vec4 {{ item.name }}DarkColor = float4({{ item.shadowItem.shadow.dark.color.red }}, {{ item.shadowItem.shadow.dark.color.green }}, {{ item.shadowItem.shadow.dark.color.blue}}, {{ item.shadowItem.shadow.dark.color.alpha}});
+        {% endif %}
+        {% if item.shadowItem.shadow.highContrast %}
+const float {{ item.name }}HighContrastXOffset = {{ item.shadowItem.shadow.highContrast.x }};
+const float {{ item.name }}HighContrastYOffset = {{ item.shadowItem.shadow.highContrast.y }};
+const float {{ item.name }}HighContrastBlur = {{ item.shadowItem.shadow.highContrast.blur }};
+const float {{ item.name }}HighContrastSpread = {{ item.shadowItem.shadow.highContrast.spread }};
+const vec4 {{ item.name }}HighContrastColor = float4({{ item.shadowItem.shadow.highContrast.color.red }}, {{ item.shadowItem.shadow.highContrast.color.green }}, {{ item.shadowItem.shadow.highContrast.color.blue}}, {{ item.shadowItem.shadow.highContrast.color.alpha}});
+        {% endif %}
+        {% if item.shadowItem.shadow.darkHighContrast %}
+const float {{ item.name }}DarkHighContrastXOffset = {{ item.shadowItem.shadow.darkHighContrast.x }};
+const float {{ item.name }}DarkHighContrastYOffset = {{ item.shadowItem.shadow.darkHighContrast.y }};
+const float {{ item.name }}DarkHighContrastBlur = {{ item.shadowItem.shadow.darkHighContrast.blur }};
+const float {{ item.name }}DarkHighContrastSpread = {{ item.shadowItem.shadow.darkHighContrast.spread }};
+const vec4 {{ item.name }}DarkHighContrastColor = float4({{ item.shadowItem.shadow.darkHighContrast.color.red }}, {{ item.shadowItem.shadow.darkHighContrast.color.green }}, {{ item.shadowItem.shadow.darkHighContrast.color.blue}}, {{ item.shadowItem.shadow.darkHighContrast.color.alpha}});
+        {% endif %}
     {% endif %}
 {% endfor %}

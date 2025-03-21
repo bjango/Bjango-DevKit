@@ -58,5 +58,45 @@ val {{ item.name }}HighContrast = "{{ item.string.value.highContrast }}"
         {% if item.string.value.darkHighContrast %}
 val {{ item.name }}DarkHighContrast = "{{ item.string.value.darkHighContrast }}"
         {% endif %}
+    {% elif item.shadowItem %}
+val {{ item.name }} = {%+ shadowAsKotlinPinwheelShadow item.shadowItem.shadow.light +%} 
+        {% if item.shadowItem.shadow.dark %}
+val {{ item.name }}Dark = {%+ shadowAsKotlinPinwheelShadow item.shadowItem.shadow.dark +%} 
+        {% endif %}
+        {% if item.shadowItem.shadow.highContrast %}
+val {{ item.name }}HighContrast = {%+ shadowAsKotlinPinwheelShadow item.shadowItem.shadow.highContrast +%} 
+        {% endif %}
+        {% if item.shadowItem.shadow.darkHighContrast %}
+val {{ item.name }}DarkHighContrast = {%+ shadowAsKotlinPinwheelShadow item.shadowItem.shadow.darkHighContrast +%} 
+        {% endif %}
+    {% elif item.shadowSet %}
+        {% for shadow in item.shadowSet.shadows %}
+val {{ item.name }}{{ shadow.name }} = {%+ shadowAsKotlinPinwheelShadow shadow.light +%} 
+            {% if shadow.dark %}
+val {{ item.name }}{{ shadow.name }}Dark = {%+ shadowAsKotlinPinwheelShadow shadow.dark +%} 
+            {% endif %}
+            {% if shadow.highContrast %}
+val {{ item.name }}{{ shadow.name }}HighContrast = {%+ shadowAsKotlinPinwheelShadow shadow.highContrast +%} 
+            {% endif %}
+            {% if shadow.darkHighContrast %}
+val {{ item.name }}{{ shadow.name }}DarkHighContrast = {%+ shadowAsKotlinPinwheelShadow shadow.darkHighContrast +%} 
+            {% endif %}
+        {% endfor %}
     {% endif %}
 {% endfor %}
+
+data class PinwheelShadow(
+    val x: Double,
+    val y: Double,
+    val blur: Double,
+    val spread: Double,
+    val color: Color
+) {
+    companion object {
+        // if using a call like asFrameworkPaint().setShadowLayer(blur,x,y,color) this is the scale factor to use
+        const val BLUR_SCALE_FACTOR = 0.85
+    }
+
+    val scaledBlur: Double
+        get() = blur * BLUR_SCALE_FACTOR
+}
