@@ -68,6 +68,7 @@
       <xs:element name="id" type="xs:string" />
       <xs:element name="name" type="xs:string" />
       <xs:element name="profile" type="xs:string" />
+      <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="steps" type="xs:integer" />
@@ -89,6 +90,7 @@
       <xs:element name="id" type="xs:string" />
       <xs:element name="name" type="xs:string" />
       <xs:element name="profile" type="xs:string" />
+      <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="color" type="ItemColorType" />
@@ -103,6 +105,7 @@
       <xs:element name="id" type="xs:string" />
       <xs:element name="name" type="xs:string" />
       <xs:element name="profile" type="xs:string" />
+      <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="shadow" type="ItemShadowType" />
@@ -188,6 +191,7 @@
       <xs:element name="id" type="xs:string" />
       <xs:element name="name" type="xs:string" />
       <xs:element name="profile" type="xs:string" />
+      <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="steps" type="xs:integer" />
@@ -395,12 +399,22 @@
       <xs:element name="fileName" type="xs:string" />
       <xs:element name="fileType" type="xs:integer" />
       <xs:element name="nameTransform" type="xs:integer" />
+      <xs:element name="colorSpaceConversion" type="BuildColorSpaceConversionValues" />
       <xs:element name="namePrefix" type="xs:string" minOccurs="0" />
       <xs:element name="nameSuffix" type="xs:string" minOccurs="0" />
       <xs:element name="format" type="BuildTaskFormatValues" minOccurs="0" maxOccurs="1" />
       <xs:element name="configuration" type="TaskConfigurationType" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
+
+    <xs:simpleType name="BuildColorSpaceConversionValues">
+    <xs:restriction base="xs:integer">
+      <xs:enumeration value="0" />  <!-- Original -->
+      <xs:enumeration value="1" />  <!-- sRGB -->
+      <xs:enumeration value="2" />  <!-- sRGB Extended -->
+      <xs:enumeration value="3" />  <!-- Display P3 --> 
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:simpleType name="BuildTaskFormatValues">
     <xs:restriction base="xs:string">
