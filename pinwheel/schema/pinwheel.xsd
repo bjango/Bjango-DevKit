@@ -70,6 +70,8 @@
       <xs:element name="profile" type="xs:string" />
       <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="steps" type="xs:integer" />
       <xs:element name="interpolation" type="xs:integer" />
@@ -92,6 +94,8 @@
       <xs:element name="profile" type="xs:string" />
       <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="color" type="ItemColorType" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -107,6 +111,8 @@
       <xs:element name="profile" type="xs:string" />
       <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="shadow" type="ItemShadowType" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -123,6 +129,8 @@
       <xs:element name="typeDark" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="subIndex" type="xs:integer" minOccurs="0" maxOccurs="1" />
@@ -146,6 +154,8 @@
       <xs:element name="typeDark" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -162,6 +172,8 @@
       <xs:element name="typeDark" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -178,6 +190,8 @@
       <xs:element name="typeDark" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="typeDarkHighContrast" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemId" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdLightHighContrast" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="referencedItemIdDark" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -193,6 +207,8 @@
       <xs:element name="profile" type="xs:string" />
       <xs:element name="format" type="xs:integer" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="autoContrast" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="steps" type="xs:integer" />
       <xs:element name="interpolation" type="xs:integer" />
@@ -255,6 +271,8 @@
       <xs:element name="max" type="xs:decimal" minOccurs="0" maxOccurs="1" />
       <xs:element name="steps" type="xs:integer" minOccurs="0" maxOccurs="1" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
@@ -265,6 +283,8 @@
       <xs:element name="name" type="xs:string" />
       <xs:element name="boolean" type="ItemBooleanType" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
@@ -275,6 +295,8 @@
       <xs:element name="name" type="xs:string" />
       <xs:element name="string" type="ItemStringType" />
       <xs:element name="appearance" type="AppearanceValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecated" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+      <xs:element name="deprecatedReason" type="xs:string" minOccurs="0" maxOccurs="1" />
       <xs:element name="buildGroupId" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
@@ -428,6 +450,7 @@
   <xs:complexType name="TaskConfigurationType">
     <xs:sequence>
       <xs:element name="assetCatalogSymbols" type="AssetCatalogSymbolValues" minOccurs="0" maxOccurs="1" />
+      <xs:element name="customTemplateLocation" type="xs:string" minOccurs="0" maxOccurs="1" />
     </xs:sequence>
   </xs:complexType>
 
@@ -466,6 +489,7 @@
       <xs:element name="id" type="xs:string" />
       <xs:element name="type" type="xs:string" />
       <xs:element name="thresholdType" type="xs:string" minOccurs="0" />
+      <xs:element name="threshold" type="xs:decimal" minOccurs="0" />
       <xs:element name="fontSize" type="xs:integer" minOccurs="0" />
       <xs:element name="fontWeight" type="xs:integer" minOccurs="0" />
     </xs:sequence>
