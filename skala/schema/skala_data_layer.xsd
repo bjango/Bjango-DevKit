@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Layers that implement an affine transformation property can control
+      the size, shear, rotation and position of its content, relative to the
+      reference frame of the parent layer.
+      
+      The transformations will be applied on the layer content, using
+      the pre-multiplication sequence, starting with an identity matrix (or
+      parent layer matrix), then operations are cumulatively multiplied to
+      the same matrix in the order of scale, center shear, center rotate, and
+      translate, resulting in a composite transformation matrix.
+
+      <scale> - Scaling transform.
+
+      <centerShear> - Center shearing transform.
+
+      <centerRotate> - Center rotation transform.
+
+      <translate> - Translation transform.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.LayerTransform">
+      <xs:sequence>
+         <xs:element name="scale" type="Data.TransformScale" minOccurs="0" />
+         <xs:element name="centerShear" type="Data.TransformCenterShear" minOccurs="0" />
+         <xs:element name="centerRotate" type="Data.TransformCenterRotate" minOccurs="0" />
+         <xs:element name="translate" type="Data.TransformTranslate" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Compositing properties for a layer.
+
+      <alpha> - Specifies the alpha compositing type for this layer.
+
+      <color> - Specifies the color compositing type for this layer.
+
+      <legacy> - Controls whether colors should be composed directly in
+         the sRGB color space.
+
+      <opacity> - Controls the layer opacity, which is applied on the layer
+         before the compositing operation is performed. The range [0, 1]
+         corresponds to minimum and maximum opacity respectively.
+
+      <sharpness> - Controls the sharpness of the anti-aliased mask.
+         The range [0, 1] corresponds to minimum and maximum sharpening
+         respectively.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.LayerCompositing">
+      <xs:sequence>
+         <xs:element name="alpha" type="Enum.AlphaCompositing" minOccurs="0" />
+         <xs:element name="color" type="Enum.ColorCompositing" minOccurs="0" />
+         <xs:element name="legacy" type="Data.Bool" minOccurs="0" />
+         <xs:element name="opacity" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="sharpness" type="Data.ExpressionVariant" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Building properties for layers that can be exported.
+
+      Page layers can be exported into images by selecting the appropriate 
+      build group. The build group then applies a series of build tasks on 
+      the layer.
+
+      <disabled> - Controls whether the layer should participate in the build
+         operation.
+
+      <buildGroupKey> - References the build group in the document's build
+         group list.
+
+      <fileName> - Optional file base name to use for the image during the 
+         build process. Under normal circumstances, the file base name is 
+         derived from the page layer display name. However, users might want 
+         to specify their custom file naming convention by setting this 
+         property with a non-empty string.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.LayerBuilding">
+      <xs:sequence>
+         <xs:element name="disabled" type="Data.Bool" minOccurs="0" />
+         <xs:element name="buildGroupKey" type="Data.Key" minOccurs="0" />
+         <xs:element name="fileName" type="Data.String" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Clipping properties for layers that can be exported.
+
+      Page layers can be cropped, padded and sliced into sub-images during a 
+      build operation. When an image is sliced into 3 or 9 parts, the build 
+      process will also append the following suffixes to the file base name:
+
+         -tl     Top left
+         -tc     Top center
+         -tr     Top right
+         -l      Left
+         -c      Center
+         -r      Right
+         -bl     Bottom left
+         -bc     Bottom center
+         -br     Bottom right
+
+      Once the suffixes are appended to the base name, the final string will
+      be forwarded to each build task, then optionally appended with more 
+      suffixes, or prefixes, depending on the build export properties.
+
+      <type> - Specifies the clipping action to apply on the image.
+
+      <padding> - Specifies the amount of padding to add around the opaque 
+         content of the image, in pixels. Cropping and slicing operations 
+         will consider the padding as part of the image content.
+
+      <slicing> - Defines slicing positions, relative to the edges of the
+         object, with padding taken into account, in pixels. This element 
+         is only used when the clipping type is set either "Horizontal",
+         "Vertical" or "NinePart". Certain export options, such as sprite 
+         sheets will ignore slicing.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.LayerClipping">
+      <xs:sequence>
+         <xs:element name="type" type="Enum.LayerClipping" minOccurs="0" />
+         <xs:element name="padding" type="Data.GeometryEdge" minOccurs="0" />
+         <xs:element name="slicing" type="Data.GeometryEdge" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Masking properties for material layers. 
+      
+      Layer masks are generated by targeting specific regions in the buffer 
+      and turning those regions opaque. Target candidates include Inset, 
+      Outset, Stroke, or Fill. Additionally, the generated mask may be offset, 
+      blurred, and optionally stencilled against the object's boundary.
+
+      <type> - Specifies the masking type.
+      
+      <offset> - Specifies the amount to offset the mask from its original 
+         position.
+      
+      <thickness> - Specifies stroke thickness for Outset and Inset masks.
+         It also controls the contraction amount for the Fill mask, relative 
+         to the object's boundary.
+      
+      <blur> - Controls the Gaussian blur radius to be applied on the mask.
+      
+      <overflow> - Allow the generated mask to overflow the object's boundary. 
+         Under normal circumstances, the generated mask is stencilled against 
+         the inside, or outside boundary mask, depending on the selected 
+         <target>, which prevents overflow caused by <offset> and <blur>.
+
+      <cap> - Specifies the shape of the ends of a stroke mask, at each end
+         of an open subpath. A stroke mask runs along the segments of an
+         open subpath, and not along the line that closes its fill. A closed
+         subpath has no ends, and neither has any shape other than a path,
+         so <cap> has no effect on them, nor on any mask other than a
+         stroke. The default is "Round".
+
+      <join> - Specifies the shape of the corners of a stroke, inset or
+         outset mask. A corner is a vertex of a path where the outline
+         turns, or a corner of a rectangle, a polygon or a star with no
+         corner radius. An outset shapes its outer corners, and an inset the
+         corners where the shape turns inward. A corner that two shapes of a
+         vector group make where their edges cross is always round. A miter
+         longer than 4 times the width of the band gets a bevel instead. The
+         default is "Round".
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.LayerMasking">
+      <xs:sequence>
+         <xs:element name="type" type="Enum.LayerMasking" minOccurs="0" />
+         <xs:element name="offset" type="Data.ExpressionVector" minOccurs="0" />
+         <xs:element name="thickness" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="blur" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="overflow" type="Data.Bool" minOccurs="0" />
+         <xs:element name="cap" type="Enum.LayerStrokeCap" minOccurs="0" />
+         <xs:element name="join" type="Enum.LayerStrokeJoin" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Render or sample target for layers.
+
+      This object represents a user-defined color buffer target for rendering
+      and sampling. Each target is identified by their own unique key. If a
+      referencing key is invalid or null (i.e. does not point to any target,
+      such as this one), the renderer will fallback to a default color
+      buffer.
+
+      <name> - User friendly display name for the render or sample target.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.LayerTarget">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of render or sample target objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.LayerTargetList">
+      <xs:sequence>
+         <xs:element name="target" type="Data.LayerTarget" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

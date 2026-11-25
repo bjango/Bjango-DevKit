@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant source.
+
+      Makes an expression override, in the constant list of a Skala
+      include. Its value comes from the constants of the document that
+      holds the include. A source in the constant list of a document is
+      ignored.
+
+      <definition> - An equation for a unit, boolean or value constant,
+         such as "padding * 2", the name of a constant for a color or
+         vector constant, or text with {name} references for a string
+         constant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantSource">
+      <xs:sequence>
+         <xs:element name="definition" type="Data.String" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant unit.
+
+      <name> - Unique name of the constant. Must consist of word characters.
+
+      <scale> - Scalar representing the number of samples per unit.
+
+      <visibility> - Whether includes of the document can see and override
+         the constant. A missing visibility is public.
+
+      <source> - Where the value comes from, when it isn't a literal. The
+         value then holds the last good result. See Data.ConstantSource.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantUnit">
+      <xs:complexContent>
+         <xs:extension base="Data.ConstantVariant">
+            <xs:sequence>
+               <xs:element name="name" type="Data.Name" minOccurs="0" />
+               <xs:element name="scale" type="Data.Double" minOccurs="0" />
+               <xs:element name="visibility" type="Enum.ConstantVisibility" minOccurs="0" />
+               <xs:element name="source" type="Data.ConstantSource" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant boolean.
+
+      <name> - Unique name of the constant. Must consist of word characters.
+
+      <value> - Boolean type representing the value of the constant.
+
+      <visibility> - Whether includes of the document can see and override
+         the constant. A missing visibility is public.
+
+      <source> - Where the value comes from, when it isn't a literal. The
+         value then holds the last good result. See Data.ConstantSource.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantBool">
+      <xs:complexContent>
+         <xs:extension base="Data.ConstantVariant">
+            <xs:sequence>
+               <xs:element name="name" type="Data.Name" minOccurs="0" />
+               <xs:element name="value" type="Data.Bool" minOccurs="0" />
+               <xs:element name="visibility" type="Enum.ConstantVisibility" minOccurs="0" />
+               <xs:element name="source" type="Data.ConstantSource" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant value.
+
+      <name> - Unique name of the constant. Must consist of word characters.
+
+      <value> - Scalar representing the value of the constant.
+
+      <min> - The inclusive minimum range of value.
+
+      <max> - The inclusive maximum range of value.
+
+      <steps> - The number of interpolation steps between the minimum and
+         maximum range. There will be no constraints applied on the inter-
+         polation increments if this property is zero, or if there was no
+         minimum or maximum bound specified.
+
+      <visibility> - Whether includes of the document can see and override
+         the constant. A missing visibility is public.
+
+      <source> - Where the value comes from, when it isn't a literal. The
+         value then holds the last good result. See Data.ConstantSource.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantValue">
+      <xs:complexContent>
+         <xs:extension base="Data.ConstantVariant">
+            <xs:sequence>
+               <xs:element name="name" type="Data.Name" minOccurs="0" />
+               <xs:element name="value" type="Data.Double" minOccurs="0" />
+               <xs:element name="min" type="Data.Double" minOccurs="0" />
+               <xs:element name="max" type="Data.Double" minOccurs="0" />
+               <xs:element name="steps" type="Data.UInt" minOccurs="0" />
+               <xs:element name="visibility" type="Enum.ConstantVisibility" minOccurs="0" />
+               <xs:element name="source" type="Data.ConstantSource" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant string.
+
+      <name> - Unique name of the constant. Must consist of word characters.
+
+      <string> - String representing the text associated with the constant.
+
+      <visibility> - Whether includes of the document can see and override
+         the constant. A missing visibility is public.
+
+      <source> - Where the value comes from, when it isn't a literal. The
+         value then holds the last good result. See Data.ConstantSource.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantString">
+      <xs:complexContent>
+         <xs:extension base="Data.ConstantVariant">
+            <xs:sequence>
+               <xs:element name="name" type="Data.Name" minOccurs="0" />
+               <xs:element name="string" type="Data.String" minOccurs="0" />
+               <xs:element name="visibility" type="Enum.ConstantVisibility" minOccurs="0" />
+               <xs:element name="source" type="Data.ConstantSource" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant vector.
+
+      <name> - Unique name of the constant. Must consist of word characters.
+
+      <vector> - The vector data.
+
+      <visibility> - Whether includes of the document can see and override
+         the constant. A missing visibility is public.
+
+      <source> - Where the value comes from, when it isn't a literal. The
+         value then holds the last good result. See Data.ConstantSource.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantVector">
+      <xs:complexContent>
+         <xs:extension base="Data.ConstantVariant">
+            <xs:sequence>
+               <xs:element name="name" type="Data.Name" minOccurs="0" />
+               <xs:element name="vector" type="Data.Vector" minOccurs="0" />
+               <xs:element name="visibility" type="Enum.ConstantVisibility" minOccurs="0" />
+               <xs:element name="source" type="Data.ConstantSource" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Constant color.
+
+      <name> - Unique name of the constant. Must consist of word characters.
+
+      <color> - The color data.
+
+      <visibility> - Whether includes of the document can see and override
+         the constant. A missing visibility is public.
+
+      <source> - Where the value comes from, when it isn't a literal. The
+         value then holds the last good result. See Data.ConstantSource.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantColor">
+      <xs:complexContent>
+         <xs:extension base="Data.ConstantVariant">
+            <xs:sequence>
+               <xs:element name="name" type="Data.Name" minOccurs="0" />
+               <xs:element name="color" type="Data.Color" minOccurs="0" />
+               <xs:element name="visibility" type="Enum.ConstantVisibility" minOccurs="0" />
+               <xs:element name="source" type="Data.ConstantSource" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of constant objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ConstantList">
+      <xs:sequence>
+         <xs:element name="constant" type="Data.ConstantVariant" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Expression variant. Note, this variant object represents both
+      Data.ExpressionValue and Data.ExpressionEquation objects, but without
+      the xsi:type attribute, unlike other variant types in this schema.
+      Differentiating between pure values and equation strings is left to
+      the equation parser implemented by the application.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ExpressionVariant">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Expression vector.
+
+      <x>, <y>, <z> - Vector components.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ExpressionVector">
+      <xs:sequence>
+         <xs:element name="x" type="Data.ExpressionVariant" />
+         <xs:element name="y" type="Data.ExpressionVariant" />
+         <xs:element name="z" type="Data.ExpressionVariant" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

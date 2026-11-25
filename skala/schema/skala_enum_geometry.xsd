@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the geometry topology type.
+
+      "Axial" - Sequence of 1D Cartesian coordinate steps along the x-axis, 
+         which is then extruded along the y-axis.
+      
+      "Angular" - Sequence of 1D polar coordinate steps, which specifies a 
+         counter clockwise angular sweep, relative to the x-axis. Origin is 
+         at the bounding box center.
+      
+      "Radial" - Sequence of 1D Cartesian coordinate steps along a radius, 
+         parallel to the x-axis, which is then extruded around the unit 
+         circle. Origin is at the bounding box center.
+      
+      "Contour" - Sequence of 1D Cartesian coordinate steps along a direction 
+         vector, perpendicular to the contour tangent of an object boundary.
+      
+      "Cellular" - Sequence of 2D Cartesian coordinates forming cells.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.GeometryTopology">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Axial" />
+         <xs:enumeration value="Angular" />
+         <xs:enumeration value="Radial" />
+         <xs:enumeration value="Contour" />
+         <xs:enumeration value="Cellular" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the probability distribution function or the ordered noise
+      matrix to use for generating the color noise.
+
+      "None" - No noise.
+
+      "Uniform" - Noise with uniform probability distribution function.
+
+      "Gaussian" - Noise with Gaussian probability distribution function.
+ 
+      "Laplace" - Noise with Laplace probability distribution function.
+
+      "Gumbel" - Noise with Gumbel probability distribution function.
+
+      "Nasik" - Ordered noise with a Nasik matrix.
+
+      "Bayer" - Ordered noise with a Bayer matrix.
+
+      "BlueNoise" - Ordered noise with a blue noise matrix.
+
+      "TobiasFünke" - Alias for "BlueNoise".
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.MaterialNoise">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="None" />
+         <xs:enumeration value="Uniform" />
+         <xs:enumeration value="Gaussian" />
+         <xs:enumeration value="Laplace" />
+         <xs:enumeration value="Gumbel" />
+         <xs:enumeration value="Nasik" />
+         <xs:enumeration value="Bayer" />
+         <xs:enumeration value="BlueNoise" />
+         <xs:enumeration value="TobiasFünke" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the blur algorithm.
+
+      "Gaussian" - Gaussian blur function.
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.MaterialBlur">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Gaussian" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

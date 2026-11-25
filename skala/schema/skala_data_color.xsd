@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      The red, green and blue color components, formatted as a sequence of
+      doubles. Incomplete components will be defaulted to zero. The color
+      components may be non-linear values and can extend beyond the
+      normalised range of [0, 1]. The alpha component is always a linear
+      value, and has a range of [0, 1].
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.ColorComponents">
+      <xs:restriction base="Data.DoubleList">
+         <xs:maxLength value="4" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Color variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ColorVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Color data.
+
+      <profile> - The color profile. If this element is missing, then scRGB-nl
+         (IEC 61966-2-2:2003) color profile is assumed.
+
+      <components> - The red, green and blue color components, represented
+         in the aforementioned color profile, and an additional alpha value.
+
+      <format> - An optional string set by the client application, describing
+         the format the color should be presented in. The content is not
+         validated or interpreted. This element is omitted when the string is
+         empty.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.Color">
+      <xs:complexContent>
+         <xs:extension base="Data.ColorVariant">
+            <xs:sequence>
+               <xs:element name="profile" type="Enum.ColorProfile" minOccurs="0" />
+               <xs:element name="components" type="Data.ColorComponents" minOccurs="0" />
+               <xs:element name="format" type="Data.String" minOccurs="0" />
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Color that references a constant color by name. The content data type
+      is expected conform with Data.Name restrictions.
+
+      Ideally, Data.Name should be used in place of Data.ColorName. However,
+      XSD 1.0 does not support co-occurrence constraints for implementing the
+      Data.ColorVariant system, which would allow to hold either Data.Color,
+      or Data.Name. Consequently, we use Data.ColorName instead, which
+      is a mixed complexType definition. This means the XSD validator will
+      permit arbitrary string patterns and we can not enforce Data.Name
+      restrictions on Data.ColorName directly. Such validation is left to
+      the XML parser, implemented by the application.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ColorName" mixed="true">
+      <xs:complexContent>
+         <xs:extension base="Data.ColorVariant" />
+      </xs:complexContent>
+   </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Arithmetic types.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.Bool">
+      <xs:restriction base="xs:boolean" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Int">
+      <xs:restriction base="xs:integer" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.UInt">
+      <xs:restriction base="xs:nonNegativeInteger" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Float">
+      <xs:restriction base="xs:float" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Double">
+      <xs:restriction base="xs:double" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Index">
+      <xs:restriction base="xs:integer" />
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      List of arithmetic data types.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.BoolList">
+      <xs:list itemType="xs:boolean" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.IntList">
+      <xs:list itemType="xs:integer" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.UIntList">
+      <xs:list itemType="xs:nonNegativeInteger" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.FloatList">
+      <xs:list itemType="xs:float" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.DoubleList">
+      <xs:list itemType="xs:double" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.IndexList">
+      <xs:list itemType="xs:integer" />
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Required and optional attribute groups for keys. The key is a 64-bit
+      unsigned integer, encoded as Base16 character sequence, ranging
+      between 1 to 16 digits. If the key is not recognised as a Base16
+      encoding, it will be treated as a raw string, which will be hashed
+      into a 64-bit value.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.Key">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="([0-9A-Fa-f]{1,16})?" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:attributeGroup name="Data.RequiredKeyGroup">
+      <xs:attribute name="id" type="Data.Key" use="required" />
+   </xs:attributeGroup>
+
+   <xs:attributeGroup name="Data.OptionalKeyGroup">
+      <xs:attribute name="id" type="Data.Key" use="optional" />
+   </xs:attributeGroup>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Data types with multiple components, formatted as a sequence of doubles.
+      Incomplete components will be defaulted to zero.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.Size">
+      <xs:restriction base="Data.DoubleList">
+         <xs:maxLength value="2" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Point">
+      <xs:restriction base="Data.DoubleList">
+         <xs:maxLength value="2" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Vector">
+      <xs:restriction base="Data.DoubleList">
+         <xs:maxLength value="3" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Version information, formatted as "Major.Minor.Build". The Major
+      component is mandatory, the rest is optional.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.Version">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="\d+(\.\d+){0,2}" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Strings and buffers.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.String">
+      <xs:restriction base="xs:string" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Name">
+      <xs:restriction base="xs:NCName" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Data.Buffer">
+      <xs:restriction base="xs:base64Binary" />
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      URI Type.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.URI">
+      <xs:restriction base="xs:anyURI" />
+   </xs:simpleType>
+
+</xs:schema>

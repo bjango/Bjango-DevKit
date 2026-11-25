@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Transform variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Translation transform.
+      
+      <x>, <y>, <z> - Translation parameters for each dimension.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformTranslate">
+      <xs:complexContent>
+         <xs:extension base="Data.TransformVariant">
+            <xs:sequence>
+               <xs:element name="x" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="y" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="z" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Scaling transform.
+      
+      <x>, <y>, <z> - Scaling parameters for each dimension.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformScale">
+      <xs:complexContent>
+         <xs:extension base="Data.TransformVariant">
+            <xs:sequence>
+               <xs:element name="x" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="y" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="z" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Center scaling transform. Similar to "TransformScale", except the
+      scaling is applied about the object's calculated center.
+      
+      <x>, <y>, <z> - Scaling parameters for each dimension.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformCenterScale">
+      <xs:complexContent>
+         <xs:extension base="Data.TransformVariant">
+            <xs:sequence>
+               <xs:element name="x" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="y" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="z" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Shearing transform. The shearing is defined in terms of six shearing 
+      angles, in degrees, with a range of (-90°, 90°), not inclusive.
+
+      <xy> - Shear along the X direction, skewing the Y-axis. This is
+         equivalent to horizontal shear.
+
+      <yx> - Shear along the Y direction, skewing the X-axis. This is
+         equivalent to vertical shear.
+
+      <xz> - Shear along the X direction, skewing the Z-axis.
+
+      <zx> - Shear along the Z direction, skewing the X-axis.
+
+      <yz> - Shear along the Y direction, skewing the Z-axis.
+
+      <zy> - Shear along the Z direction, skewing the Y-axis.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformShear">
+      <xs:complexContent>
+         <xs:extension base="Data.TransformVariant">
+            <xs:sequence>
+               <xs:element name="xy" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="yx" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="xz" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="zx" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="yz" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="zy" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Center shearing transform. Similar to "Data.TransformShear", except
+      the shearing is applied about the object's calculated center.
+
+      <xy> - Shear along the X direction, skewing the Y-axis. This is
+         equivalent to horizontal shear.
+
+      <yx> - Shear along the Y direction, skewing the X-axis. This is
+         equivalent to vertical shear.
+
+      <xz> - Shear along the X direction, skewing the Z-axis.
+
+      <zx> - Shear along the Z direction, skewing the X-axis.
+
+      <yz> - Shear along the Y direction, skewing the Z-axis.
+
+      <zy> - Shear along the Z direction, skewing the Y-axis.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformCenterShear">
+      <xs:complexContent>
+         <xs:extension base="Data.TransformVariant">
+            <xs:sequence>
+               <xs:element name="xy" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="yx" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="xz" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="zx" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="yz" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="zy" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Rotation transform. The rotation is performed about an axis represented 
+      by the unit vector [x, y, z]. For example, to rotate an object resting 
+      flat on the canvas, the vector components should be [0, 0, -1].
+
+      <x>, <y>, <z> - Unit vector that specifies the direction of the 
+         rotation axis.
+
+      <angle> - Rotation angle in degrees.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformRotate">
+      <xs:complexContent>
+         <xs:extension base="Data.TransformVariant">
+            <xs:sequence>
+               <xs:element name="x" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="y" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="z" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="angle" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Center rotation transform. Similar to "Data.TransformRotate", except
+      the rotation is applied about the object's calculated center.
+
+      <x>, <y>, <z> - Unit vector that specifies the direction of the 
+         rotation axis.
+
+      <angle> - Rotation angle in degrees.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformCenterRotate">
+      <xs:complexContent>
+         <xs:extension base="Data.TransformVariant">
+            <xs:sequence>
+               <xs:element name="x" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="y" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="z" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="angle" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      The transform list contains a sequence of transformation operations,
+      which are applied in the order as they appear in the list. The first 
+      operation is multiplied to an identity matrix, then all subsequent
+      operations are cumulatively multiplied to the same matrix, resulting 
+      in a composite transformation matrix.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.TransformList">
+      <xs:sequence>
+         <xs:element name="function" type="Data.TransformVariant" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Material layer content variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialLayerContentVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Color generator.
+
+      <color> - Specifies the color to generate in the material layer.
+
+      <noiseType> - Selects the noise algorithm to inject into the
+         generated color values.
+
+      <noiseSeed> - The initial seed for the noise algorithm.
+
+      <noiseAmplitude> - Strength of the noise applied to the color
+         channels.
+
+      <monochromeNoise> - If set, the generated noise will be monochrome
+         and applied uniformly to all color channels. If clear, the noise
+         is applied separately on each color channel.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialColorGenerator">
+      <xs:complexContent>
+         <xs:extension base="Data.MaterialLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="color" type="Data.ColorVariant" minOccurs="0" />
+               <xs:element name="noiseType" type="Enum.MaterialNoise" minOccurs="0" />
+               <xs:element name="noiseSeed" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="noiseAmplitude" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="monochromeNoise" type="Data.Bool" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Gradient generator. Gradients specify a range of position-dependent 
+      colors, called color steps, for the purpose of filling a two 
+      dimensional space with interpolated colors. Therefore, gradients are 
+      defined by two main properties: the topology type used for filling the 
+      space; and the interpolation type used for computing the intermediate 
+      colors. Not all interpolation types are compatible with every topology
+      type, as illustrated by the table below:
+
+                         │                   Topology
+                         ├────────┬─────────┬────────┬─────────┬─────────
+         Interpolation   │ Axial  │ Angular │ Radial │ Contour │ Cellular
+         ────────────────┼────────┼─────────┼────────┼─────────┼─────────
+         Nearest         │ Y      │ Y       │ Y      │ Y       │ -
+         Linear          │ Y      │ Y       │ Y      │ Y       │ -
+         Cosine          │ Y      │ Y       │ Y      │ Y       │ -
+         Cubic Hermite   │ Y      │ Y       │ Y      │ Y       │ -
+         Quintic Hermite │ Y      │ Y       │ Y      │ Y       │ -
+         Catmull─Rom     │ Y      │ Y       │ Y      │ Y       │ -
+         Voronoi         │ -      │ -       │ -      │ -       │ Y
+         Sibson          │ -      │ -       │ -      │ -       │ Y
+         Shepard         │ -      │ -       │ -      │ -       │ Y
+         Gaussian        │ -      │ -       │ -      │ -       │ Y
+         Blobs           │ -      │ -       │ -      │ -       │ Y
+
+    Most gradient topologies are 1D, whereas cellular topologies are 2D.
+    Cellular topologies may also use other vertex attribute data, as denoted
+    in the table below:
+
+         Interpolation   │ Vertex Attributes
+         ────────────────┼───────────────────
+         Voronoi         │ -
+         Sibson          │ -
+         Shepard         │ Exponent
+         Gaussian        │ Radius
+         Blobs           │ Radius, Blobbiness
+
+      <interpolation> - Controls the interpolation type of the gradient.
+
+      <topology> - Controls the topology type of the gradient.
+
+      <legacy> - Controls whether colors should be interpolated directly in
+         the sRGB color space.
+
+      <tiling> - Controls the gradient image tiling mode.
+
+      <transform> - Controls the gradient image transform.
+
+      <vertexList> - Vertex list that represents the position, color and
+         other attributes for each gradient point.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialGradientGenerator">
+      <xs:complexContent>
+         <xs:extension base="Data.MaterialLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="interpolation" type="Enum.ColorInterpolation" minOccurs="0" />
+               <xs:element name="topology" type="Enum.GeometryTopology" minOccurs="0" />
+               <xs:element name="legacy" type="Data.Bool" minOccurs="0" />
+               <xs:element name="tiling" type="Data.ImageTiling" minOccurs="0" />
+               <xs:element name="transform" type="Data.ImageTransform" minOccurs="0" />
+               <xs:element name="vertexList" type="Data.GeometryVertexList" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image generator.
+      
+      <imageKey> - ID reference to the image resource. The image data is
+         expected to be either 1D or 2D.
+
+      <imageFit> - Specifies how the image should be transformed and fitted 
+         to the bounding box.
+
+      <minFilter> - Texture sampler minification filtering mode. Overrides
+         the default minification filter settings of the referenced image
+         resource.
+
+      <magFilter> - Texture sampler magnification filtering mode. Overrides
+         the default magnification filter settings of the referenced image
+         resource.
+
+      <tiling> - Image tiling mode in each dimension. Overrides the default
+         tiling settings of the referenced image resource.
+
+      <transform> - Controls the image transform.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialImageGenerator">
+      <xs:complexContent>
+         <xs:extension base="Data.MaterialLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="imageKey" type="Data.Key" minOccurs="0" />
+               <xs:element name="imageFit" type="Enum.ImageFit" minOccurs="0" />
+               <xs:element name="minFilter" type="Enum.ImageMinFilter" minOccurs="0" />
+               <xs:element name="magFilter" type="Enum.ImageMagFilter" minOccurs="0" />
+               <xs:element name="tiling" type="Data.ImageTiling" minOccurs="0" />
+               <xs:element name="transform" type="Data.ImageTransform" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Color adjust filter.
+
+      <input> - Selects the user-defined sample target for input. Invalid or
+         null keys will select a default color buffer for input.
+
+      <hue> - Specifies the hue offset.
+
+      <saturation> - Specifies the saturation offset.
+
+      <brightness> - Specifies the brightness offset.
+
+      <contrast> - Specifies the contrast offset.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialColorAdjustFilter">
+      <xs:complexContent>
+         <xs:extension base="Data.MaterialLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="input" type="Data.Key" minOccurs="0" />
+               <xs:element name="hue" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="saturation" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="brightness" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="contrast" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Color mixer filter. Each output channel is a weighted sum of the
+      unpremultiplied input channels plus an offset, for example:
+
+         red = redFromRed * R + redFromGreen * G + redFromBlue * B
+            + redFromAlpha * A + redOffset
+
+      Weights and offsets are unclamped, though the alpha output is clamped to
+      the range [0, 1]. Omitted cells default to the identity mapping.
+
+      <input> - Selects the user-defined sample target for input. Invalid or
+         null keys will select a default color buffer for input.
+
+      <redFromRed>, <redFromGreen>, <redFromBlue>, <redFromAlpha> - Weight
+         of each input channel in the red output channel.
+
+      <redOffset> - Constant added to the red output channel.
+
+      <greenFromRed>, <greenFromGreen>, <greenFromBlue>, <greenFromAlpha> -
+         Weight of each input channel in the green output channel.
+
+      <greenOffset> - Constant added to the green output channel.
+
+      <blueFromRed>, <blueFromGreen>, <blueFromBlue>, <blueFromAlpha> -
+         Weight of each input channel in the blue output channel.
+
+      <blueOffset> - Constant added to the blue output channel.
+
+      <alphaFromRed>, <alphaFromGreen>, <alphaFromBlue>, <alphaFromAlpha> -
+         Weight of each input channel in the alpha output channel.
+
+      <alphaOffset> - Constant added to the alpha output channel.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialColorMixerFilter">
+      <xs:complexContent>
+         <xs:extension base="Data.MaterialLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="input" type="Data.Key" minOccurs="0" />
+               <xs:element name="redFromRed" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="redFromGreen" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="redFromBlue" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="redFromAlpha" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="redOffset" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="greenFromRed" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="greenFromGreen" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="greenFromBlue" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="greenFromAlpha" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="greenOffset" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="blueFromRed" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="blueFromGreen" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="blueFromBlue" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="blueFromAlpha" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="blueOffset" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="alphaFromRed" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="alphaFromGreen" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="alphaFromBlue" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="alphaFromAlpha" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="alphaOffset" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Blur filter.
+
+      <input> - Selects the user-defined sample target for input. Invalid or
+         null keys will select a default color buffer for input.
+
+      <blur> - Specifies the blur type.
+
+      <radius> - Controls the blur radius in each dimension.
+
+      <offset> - Moves where the blur is read from, in document pixels. A
+         positive x reads from the right and a positive y reads from below.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialBlurFilter">
+      <xs:complexContent>
+         <xs:extension base="Data.MaterialLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="input" type="Data.Key" minOccurs="0" />
+               <xs:element name="blur" type="Enum.MaterialBlur" minOccurs="0" />
+               <xs:element name="radius" type="Data.ExpressionVector" minOccurs="0" />
+               <xs:element name="offset" type="Data.ExpressionVector" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Gradient map filter. This filter maps scalar index values from the
+      input buffer to a gradient which produces a colorised image. The
+      scheme is similar how color palettes work. The index values are
+      normalised to the range [0 : 1), which is the entire extent of the
+      gradient. If the input buffer uses the RGB format, the index value
+      is computed by evaluating the luminance from the RGB components, in
+      accordance to the ITU-R BT.470-6 standard:
+
+         Y = 0.2989 * R + 0.5867 * G + 0.1144 * A
+
+      <input> - Selects the user-defined sample target for input. Invalid or
+         null keys will select a default color buffer for input.
+
+      <interpolation> - Controls the interpolation type of the gradient.
+
+      <legacy> - Controls whether colors should be interpolated directly in
+         the sRGB color space.
+
+      <vertexList> - Vertex list that represents the position, color and
+         other attributes for each gradient point.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialGradientMapFilter">
+      <xs:complexContent>
+         <xs:extension base="Data.MaterialLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="input" type="Data.Key" minOccurs="0" />
+               <xs:element name="interpolation" type="Enum.ColorInterpolation" minOccurs="0" />
+               <xs:element name="legacy" type="Data.Bool" minOccurs="0" />
+               <xs:element name="vertexList" type="Data.GeometryVertexList" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Material layer.
+
+      <name> - Layer's display name.
+
+      <hidden> - Controls whether the layer should be hidden at render stage.
+
+      <transformWithLayer> - Controls whether a gradient or image content
+         turns and shears with the transform of the vector group that holds
+         the material, and with the transforms of its ancestor groups. When
+         false, the content stays aligned with the page, stretched over the
+         bounds of the vector group. Masking never transforms with the layer.
+         Optional element will default to false if missing.
+
+      <output> - Selects the user-defined render target for output. Invalid
+         or null keys will select a default color buffer for output.
+
+      <transform> - Transform properties.
+
+      <compositing> - Compositing properties.
+
+      <masking> - Masking properties.
+
+      <content> - Variant that represents the layer content. Optional element
+         will default to "Data.MaterialColorGenerator" if missing.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialLayer">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+         <xs:element name="hidden" type="Data.Bool" minOccurs="0" />
+         <xs:element name="transformWithLayer" type="Data.Bool" minOccurs="0" />
+         <xs:element name="output" type="Data.Key" minOccurs="0" />
+         <xs:element name="transform" type="Data.LayerTransform" minOccurs="0" />
+         <xs:element name="compositing" type="Data.LayerCompositing" minOccurs="0" />
+         <xs:element name="masking" type="Data.LayerMasking" minOccurs="0" />
+         <xs:element name="content" type="Data.MaterialLayerContentVariant" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of material layers.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialLayerList">
+      <xs:sequence>
+         <xs:element name="layer" type="Data.MaterialLayer" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Material.
+
+      <name> - Display name for the material.
+
+      <shared> - Hint whether this material instance should be shared between
+         multiple vector groups. Actual sharing behaviour is implementation
+         defined.
+
+      <targetList> - Collection of user-defined buffer targets, used for
+         selecting render and sample targets for outputs and inputs
+         respectively. If this list is empty, the renderer will fallback
+         to a default color buffer for rendering and sampling.
+
+      <layerList> - Collection of material layer objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.Material">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+         <xs:element name="shared" type="Data.Bool" minOccurs="0" />
+         <xs:element name="targetList" type="Data.LayerTargetList" minOccurs="0" />
+         <xs:element name="layerList" type="Data.MaterialLayerList" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of material objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialList">
+      <xs:sequence>
+         <xs:element name="material" type="Data.Material" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Material category.
+
+      <name> - Display name for the category.
+
+      <materialList> - Collection of <material> objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialCategory">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+         <xs:element name="materialList" type="Data.MaterialList" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Material category collection.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.MaterialCategoryList">
+      <xs:sequence>
+         <xs:element name="category" type="Data.MaterialCategory" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

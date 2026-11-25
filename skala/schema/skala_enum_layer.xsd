@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies how a layer should be clipped as part of the build process.
+
+      "Crop" - Crop the layer to opaque content, with padding taken into
+         account.
+
+      "Canvas" - Crop the layer to canvas.
+
+      "Horizontal" - Apply a Crop operation on the layer, then horizontal 
+         slice as a three-part image.
+
+      "Vertical" - Apply a Crop operation on the layer, then vertical slice
+         as a three-part image.
+
+      "NinePart" - Apply a Crop operation on the layer, then slice as a
+         nine-part image.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.LayerClipping">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Crop" />
+         <xs:enumeration value="Canvas" />
+         <xs:enumeration value="Horizontal" />
+         <xs:enumeration value="Vertical" />
+         <xs:enumeration value="NinePart" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the masking type.
+
+      "Outset" - Generate an outset mask.
+ 
+      "Inset" - Generate an inset mask.
+
+      "Stroke" - Generate a stroke mask: a band centered on the edge. An
+         open subpath strokes along its segments alone, and not along the
+         line that closes its fill.
+
+      "Fill" - Generate a fill mask.
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.LayerMasking">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Outset" />
+         <xs:enumeration value="Inset" />
+         <xs:enumeration value="Stroke" />
+         <xs:enumeration value="Fill" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the shape of the ends of a stroke mask, at each end of an
+      open subpath.
+
+      "Round" - A half disc about the end point, as wide as the stroke.
+
+      "Butt" - The stroke is cut flat at the end point.
+
+      "Square" - The stroke is cut flat, half of its thickness past the end
+         point.
+
+      "Triangle" - The stroke comes to a point, half of its thickness past
+         the end point.
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.LayerStrokeCap">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Round" />
+         <xs:enumeration value="Butt" />
+         <xs:enumeration value="Square" />
+         <xs:enumeration value="Triangle" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the shape of the corners of a stroke, inset or outset mask.
+
+      "Round" - A disc about the corner point, as wide as the band.
+
+      "Miter" - The outer edges of the band run on until they meet in a
+         point. A corner sharper than about 29 degrees gets a bevel
+         instead.
+
+      "Bevel" - The corner is cut flat, between the ends of the two outer
+         edges.
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.LayerStrokeJoin">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Round" />
+         <xs:enumeration value="Miter" />
+         <xs:enumeration value="Bevel" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

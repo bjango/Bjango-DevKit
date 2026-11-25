@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the media type.
+
+      "application/x.none" - No encoding. Used for empty content.
+
+      "image/jpeg" - Joint Photographic Experts Group image format.
+
+      "image/png" - Portable Network Graphics image format.
+
+      "image/tga" - Truevision TARGA image format.
+
+      "image/webp" - WebP image format.
+
+      "text/rtf" - Rich Text Format.
+
+      "text/plain;charset=UTF-8" - UTF-8 encoded string.
+
+      "text/xml" - Extensible Markup Language.
+
+      "application/x.vcdiff" - Generic Differencing and Compression Data Format (RFC 3284).
+
+      "application/zlib" - ZLIB data compression (RFC 1950).
+
+      "application/gzip" - GZIP data compression (RFC 1952).
+
+      "application/x.bzip2" - BZIP2 data compression.
+
+      "application/x.xz" - XZ Utils data compression.
+
+      "application/zstd" - Zstandard data compression (RFC 8878).
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.MediaType">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="application/x.none" />
+         <xs:enumeration value="image/jpeg" />
+         <xs:enumeration value="image/png" />
+         <xs:enumeration value="image/tga" />
+         <xs:enumeration value="image/webp" />
+         <xs:enumeration value="text/rtf" />
+         <xs:enumeration value="text/plain;charset=UTF-8" />
+         <xs:enumeration value="text/xml" />
+         <xs:enumeration value="application/x.vcdiff" />
+         <xs:enumeration value="application/zlib" />
+         <xs:enumeration value="application/gzip" />
+         <xs:enumeration value="application/x.bzip2" />
+         <xs:enumeration value="application/x.xz" />
+         <xs:enumeration value="application/zstd" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the data compression method for the entropy coder.
+
+      "application/x.none" - No encoding. Used for empty content.
+
+      "application/zlib" - ZLIB data compression (RFC 1950).
+
+      "application/gzip" - GZIP data compression (RFC 1952).
+
+      "application/x.bzip2" - BZIP2 data compression.
+
+      "application/x.xz" - XZ Utils data compression.
+
+      "application/zstd" - Zstandard data compression (RFC 8878).
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.CompressionMethod">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="application/x.none" />
+         <xs:enumeration value="application/zlib" />
+         <xs:enumeration value="application/gzip" />
+         <xs:enumeration value="application/x.bzip2" />
+         <xs:enumeration value="application/x.xz" />
+         <xs:enumeration value="application/zstd" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the data compression level for the entropy coder.
+
+      "None" - No data compression.
+
+      "Level#" - Compression level range 1 to 9, corresponding to
+         fastest to best level respectively.
+
+      "Speed" - Fastest compression level.
+
+      "Default" - Default compression level.
+
+      "Best" - Best compression level.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.CompressionLevel">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="None" />
+         <xs:enumeration value="Level1" />
+         <xs:enumeration value="Level2" />
+         <xs:enumeration value="Level3" />
+         <xs:enumeration value="Level4" />
+         <xs:enumeration value="Level5" />
+         <xs:enumeration value="Level6" />
+         <xs:enumeration value="Level7" />
+         <xs:enumeration value="Level8" />
+         <xs:enumeration value="Level9" />
+         <xs:enumeration value="Speed" />
+         <xs:enumeration value="Default" />
+         <xs:enumeration value="Best" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies who can see and override a constant.
+
+      "Public" - Includes of the document can see and override the constant.
+
+      "Private" - Only the document itself can see the constant. Includes
+         of the document can neither see nor override it.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ConstantVisibility">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Public" />
+         <xs:enumeration value="Private" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

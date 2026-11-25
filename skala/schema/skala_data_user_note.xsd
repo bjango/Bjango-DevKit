@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      User note name string.
+
+      Each user note entry is identified by a name, which should start with a
+      dot separated prefix that identifies the vendor, followed by a label
+      string that identifies the user note content.
+
+      For example, the name "kittencorp.layout" will identify the vendor as
+      "kittencorp", with a custom user content related to "layout".
+
+      The vendor identifier prefix "skala.*" is reserved for internal use.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Data.UserNoteName">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="(\w+\.\w+)?" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      User note entry for storing application specific data.
+
+      <name> - Name of the user note entry.
+
+      <content> - The application specific data.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.UserNote">
+      <xs:sequence>
+         <xs:element name="name" type="Data.UserNoteName" />
+         <xs:element name="content" type="Data.String" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of user notes.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.UserNoteList">
+      <xs:sequence>
+         <xs:element name="userNote" type="Data.UserNote" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

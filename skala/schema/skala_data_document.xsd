@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Document.
+
+      <version> - Specifies the document version.
+
+      <size> - The document resolution, in pixels. This corresponds to the
+         canvas bounding box, with a reference frame located at top-left.
+
+      <userNoteList> - Collection of user notes and application specific data.
+
+      <constantList> - Collection of constant objects. The constant list keeps
+         an array of identifiers associated with pre-calculated values. Constants
+         have a global scope within each document context, and are referenced 
+         by expression equation objects embedded in the rest of the document.
+
+      <imageList> - Collection of image objects. Images are referenced by 
+         material layers and light sources in the document.
+
+      <materialList> - Collection of material objects. Material objects are
+         referenced by vector page layers.
+
+      <buildGroupList> - Collection of build group objects. Build groups 
+         manage objects needed for exporting various page layers.
+
+      <pageList> - Collection of page objects. The document is divided into 
+         discrete pages, each representing an independent stack of graphical 
+         layer objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.Document">
+      <xs:sequence>
+         <xs:element name="version" type="Data.Version" />
+         <xs:element name="size" type="Data.Size" minOccurs="0" />
+         <xs:element name="userNoteList" type="Data.UserNoteList" minOccurs="0" />
+         <xs:element name="constantList" type="Data.ConstantList" minOccurs="0" />
+         <xs:element name="imageList" type="Data.ImageList" minOccurs="0" />
+         <xs:element name="materialList" type="Data.MaterialList" minOccurs="0" />
+         <xs:element name="buildGroupList" type="Data.BuildGroupList" minOccurs="0" />
+         <xs:element name="pageList" type="Data.PageList" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

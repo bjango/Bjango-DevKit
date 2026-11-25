@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the naming convention applied to the exported file name.
+
+      "None" - Leave the name unmodified.
+
+      "CamelCase" - Join the words, lowering the first (`myGreatIcon`).
+
+      "PascalCase" - Join the words, raising each (`MyGreatIcon`).
+
+      "SnakeCase" - Lower the name, spaces become underscores
+         (`my_great_icon`).
+
+      "KebabCase" - Lower the name, spaces become hyphens (`my-great-icon`).
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildNameTransform">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="None" />
+         <xs:enumeration value="CamelCase" />
+         <xs:enumeration value="PascalCase" />
+         <xs:enumeration value="SnakeCase" />
+         <xs:enumeration value="KebabCase" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Controls how the mipmap levels are composed upon export.
+
+      "TileCompositeChannels" - Tile the mipmap levels as a composite 
+         channel in a single image.
+
+      "TileSeparateChannels" - Tile the mipmap levels as separate color 
+         channels in a single image.
+
+      "SeparateImages" - Export each mipmap level as a separate image.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildExportMipmapComposition">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="TileCompositeChannels" />
+         <xs:enumeration value="TileSeparateChannels" />
+         <xs:enumeration value="SeparateImages" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Controls how the sprite sheet size is calculated.
+
+      "Manual" - The sprite sheet size is user defined.
+
+      "BestFit" - The sprite sheet size is automatically calculated to best
+         fit the content.
+
+      "PowerOfTwo" - The sprite sheet size is automatically calculated and
+         rounded up to the next 2ⁿ resolution to best fit the content.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildExportSpriteSheetSizing">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Manual" />
+         <xs:enumeration value="BestFit" />
+         <xs:enumeration value="PowerOfTwo" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Controls how sprites are aligned in the sheet.
+
+      "Automatic" - Align sprites automatically.
+
+      "Grid" - Align sprites as a grid.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildExportSpriteSheetAlignment">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Automatic" />
+         <xs:enumeration value="Grid" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Controls how sprites are packed in the sheet.
+
+      "Optimal" - Pack sprites optimally.
+
+      "IncreasingSize" - Pack sprites sorted as smallest to largest.
+
+      "DecreasingSize" - Pack sprites sorted as largest to smallest.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildExportSpriteSheetPacking">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Optimal" />
+         <xs:enumeration value="IncreasingSize" />
+         <xs:enumeration value="DecreasingSize" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies what kind of coordinate listing to generate for the sprite 
+      sheet images.
+
+      "None" - Do not generate sprite sheet coordinate listing.
+
+      "XML" - Generate sprite a sheet coordinate listing in XML format.
+
+      "CSS" - Generate sprite a sheet coordinate listing in CSS format.
+      
+      "Text" - Generate sprite a sheet coordinate listing as raw text.
+
+      "JSON" - Generate a sprite sheet coordinate listing in JSON format.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildExportSpriteSheetListing">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="None" />
+         <xs:enumeration value="XML" />
+         <xs:enumeration value="CSS" />
+         <xs:enumeration value="Text" />
+         <xs:enumeration value="JSON" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the JPEG color sampling.
+
+      "YCbCr444" - Encode image using YCbCr 4:4:4 color sampling.
+
+      "YCbCr422" - Encode image using YCbCr 4:2:2 color sampling.
+
+      "YCbCr420" - Encode image using YCbCr 4:2:0 color sampling.
+
+      "YCbCr411" - Encode image using YCbCr 4:1:1 color sampling.
+
+      "YCbCr410" - Encode image using YCbCr 4:1:0 color sampling.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildFormatJPEGSampling">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="YCbCr444" />
+         <xs:enumeration value="YCbCr422" />
+         <xs:enumeration value="YCbCr420" />
+         <xs:enumeration value="YCbCr411" />
+         <xs:enumeration value="YCbCr410" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Controls the PNG data compression level.
+
+      "Level0" - Apply compression level 0 (no compression).
+ 
+      "Level1" - Apply compression level 1.
+ 
+      "Level2" - Apply compression level 2.
+ 
+      "Level3" - Apply compression level 3.
+ 
+      "Level4" - Apply compression level 4.
+ 
+      "Level5" - Apply compression level 5.
+ 
+      "Level6" - Apply compression level 6.
+ 
+      "Level7" - Apply compression level 7.
+ 
+      "Level8" - Apply compression level 8.
+ 
+      "Level9" - Apply compression level 9 (best compression).
+ 
+      "None" - No compression.
+ 
+      "Speed" - Apply compression with best performance.
+
+      "Default" - Apply default compression level.
+ 
+      "Best" - Apply best compression level.
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildFormatPNGCompression">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Level0" />
+         <xs:enumeration value="Level1" />
+         <xs:enumeration value="Level2" />
+         <xs:enumeration value="Level3" />
+         <xs:enumeration value="Level4" />
+         <xs:enumeration value="Level5" />
+         <xs:enumeration value="Level6" />
+         <xs:enumeration value="Level7" />
+         <xs:enumeration value="Level8" />
+         <xs:enumeration value="Level9" />
+         <xs:enumeration value="None" />
+         <xs:enumeration value="Speed" />
+         <xs:enumeration value="Default" />
+         <xs:enumeration value="Best" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the TGA data compression method.
+
+      "None" - Apply no compression.
+ 
+      "RLE" - Apply run-length encoding compression.
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.BuildFormatTGACompression">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="None" />
+         <xs:enumeration value="RLE" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

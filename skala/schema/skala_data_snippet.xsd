@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Snippets are containers for managing a partially copied document. Deep
+      copying an entire document tree is wasteful in some situations, because
+      not all data in the document is required for processing by various
+      subsystems. Snippets are also useful for serialising parts of a document
+      structure for the purpose of copy and pasting.
+
+      <version> - Specifies the document version.
+
+      <size> - The originating document resolution, in pixels.
+
+      <userNoteList> - Collection of user notes and application specific data.
+
+      <constantList> - Collection of constants referenced by the content object.
+
+      <imageList> - Collection of image data referenced by the content object.
+         
+      <materialList> - Collection of material data referenced by the content object.
+
+      <content> - Variant that holds the partially copied document data.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.Snippet">
+      <xs:sequence>
+         <xs:element name="version" type="Data.Version" />
+         <xs:element name="size" type="Data.Size" minOccurs="0" />
+         <xs:element name="userNoteList" type="Data.UserNoteList" minOccurs="0" />
+         <xs:element name="constantList" type="Data.ConstantList" minOccurs="0" />
+         <xs:element name="imageList" type="Data.ImageList" minOccurs="0" />
+         <xs:element name="materialList" type="Data.MaterialList" minOccurs="0" />
+         <xs:element name="content" type="Data.SnippetContentVariant" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Snippet payload variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.SnippetContentVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Snippet payload data.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.SnippetContentBuildGroupList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="buildGroup" type="Data.BuildGroup" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentBuildTaskList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="task" type="Data.BuildTask" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentConstantList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="constant" type="Data.ConstantVariant" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentImageList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="image" type="Data.ImageVariant" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentMaterialList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="material" type="Data.Material" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentMaterialCategoryList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="category" type="Data.MaterialCategory" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentMaterialLayerList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="layer" type="Data.MaterialLayer" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentPageList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="page" type="Data.Page" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="Data.SnippetContentPageLayerList">
+      <xs:complexContent>
+         <xs:extension base="Data.SnippetContentVariant">
+            <xs:sequence>
+               <xs:element name="layer" type="Data.PageLayer" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+</xs:schema>

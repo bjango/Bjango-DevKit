@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Page layer content variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageLayerContentVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Generic group. Groups have no content properties and they are only used
+      for identifying the layer type.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageGroup">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Mask group.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageMaskGroup">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Vector group.
+
+      The shape layers among the children of a vector group define its
+      fill area: the union of their coverage, each shape composed in layer
+      order with its own compositing properties. The material draws
+      through that area.
+
+      Every other child layer, such as a nested vector group, a group, a
+      mask group or an include, draws inside the fill area and is clipped
+      by it, including anything its own material reaches past its shapes.
+      That content draws atop the material of the vector group and takes
+      the alpha of the material inside the fill area, as a Photoshop
+      clipping mask does: where the material is transparent, so is the
+      content, and material layers outside the fill area, such as an
+      outset shadow, never show it. A vector group without a material
+      shows the content clipped to its fill area alone. A vector group
+      with no shape layers does not clip its children.
+
+      <materialKey> - References the material object in the document's
+         material list.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageVectorGroup">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="materialKey" type="Data.Key" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Line guide.
+
+      The line guide is represented an infinite line, which is positioned
+      and oriented by the layer's transformation properties. The guide
+      orientation is horizontal by default, i.e. when the rotation angle
+      is 0°.
+
+      <color> - Sets the guide color.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageLineGuide">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="color" type="Data.ColorVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Rectangle guide.
+
+      The rectangle guide is represented as an axis-aligned rectangle, which
+      is positioned and scaled by the layer's transformation properties. The
+      rectangle can be subjected to other transformations, such as rotation
+      and shearing.
+
+      <color> - Sets the guide color.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageRectangleGuide">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="color" type="Data.ColorVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Grid guide.
+
+      The grid guide is represented as a series of infinitely long, axis-
+      aligned lines, running both horizontally and vertically. The series of
+      lines repeat in both dimensions. The grid also has an origin and spacing,
+      which is set by the layer's transformation properties. The spacing is
+      controlled by the scaling transform. The grid can be subjected to other
+      transformations, such as rotation and shearing.
+
+      <color> - Sets the guide color.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageGridGuide">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="color" type="Data.ColorVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Skala document include. Allows the inclusion of external guest Skala
+      documents inside the host document. The initial bounding box size
+      should match guest document size when included for the first time.
+
+      <path> - References the external resource to a Skala document. Resolved
+         relative to the current working directory, which may correspond to
+         the host document location.
+
+      <constantList> - Collection of constant objects which will override
+         constants of the same name in the guest document.
+
+      <imageFit> - Specifies how the rendered document should be transformed
+         and fitted to the layer's bounding box. Note, this property does not
+         affect the layer's transformation properties. Also, "Custom" mode is
+         not used and will default to "Fill" behaviour.
+
+      <guideVisibility> - Specifies how the guides in the include document
+         should be made visible in the canvas space.
+
+      <pageKey> - Selects the page in the guest document for display, by the
+         key of that page. When unset, the first page is displayed. A key that
+         matches no page of the guest document is an error, and the include
+         displays nothing.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageSkalaInclude">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="path" type="Data.URI" minOccurs="0" />
+               <xs:element name="constantList" type="Data.ConstantList" minOccurs="0" />
+               <xs:element name="imageFit" type="Enum.ImageFit" minOccurs="0" />
+               <xs:element name="guideVisibility" type="Enum.PageGuideVisibility" minOccurs="0" />
+               <xs:element name="pageKey" type="Data.Key" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image include. Allows the inclusion of external image files inside the
+      host document. The initial bounding box size should match image's size
+      when included for the first time.
+
+      <path> - References the external image resource. Supported formats
+         include JPEG, PNG and TGA files. Resolved relative to the current
+         working directory, which may correspond to the host document location.
+
+      <imageFit> - Specifies how the image should be transformed and fitted
+         to the layer's bounding box. Note, this property does not affect
+         the layer's transformation properties. Also, "Custom" mode is not
+         used and will default to "Fill" behaviour.
+
+      <imageFilter> - Specifies how the image is filtered when it is
+         resampled to the layer's bounding box.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageImageInclude">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="path" type="Data.URI" minOccurs="0" />
+               <xs:element name="imageFit" type="Enum.ImageFit" minOccurs="0" />
+               <xs:element name="imageFilter" type="Enum.ImageFilter" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Rectangle shape.
+
+      Rounded rectangles will undergo affine transformations in a way that
+      the corner geometry is preserved as a superellipse of the corner
+      exponent, which is a circle at the default exponent of 2. Therefore,
+      scaling might stretch the overall rectangle, but the corners are scaled
+      proportionally without distortion. The rectangle size is determined by
+      the layer's transformation properties.
+
+      <topLeftRadius> - Specifies the top-left corner radius, in pixels.
+         This parameter is applied directly at the rasterisation stage.
+
+      <topRightRadius> - Specifies the top-right corner radius, in pixels.
+         This parameter is applied directly at the rasterisation stage.
+
+      <bottomLeftRadius> - Specifies the bottom-left corner radius, in pixels.
+         This parameter is applied directly at the rasterisation stage.
+
+      <bottomRightRadius> - Specifies the bottom-right corner radius, in pixels.
+         This parameter is applied directly at the rasterisation stage.
+
+      <cornerExponent> - Specifies the curvature of the four corners, as the
+         exponent of the superellipse quadrant that each corner draws inside
+         the box of its radius. The corner keeps its radius at every
+         exponent, meeting the sides at the same points. The exponent must
+         be positive and non-zero, and defaults to 2. Typical examples:
+
+            Corner                            │ Exponent (n)
+            ──────────────────────────────────┼─────────────
+            Chamfer                           │ 1
+            Circular arc                      │ 2
+            Flatter arc, smooth at the sides  │ 3
+            Continuous corner, as iOS draws   │ 5
+            Nearly square with soft tips      │ 10
+            Sharp                             │ n → ∞
+
+         This parameter is applied directly at the rasterisation stage.
+
+      <startAngle> - Specifies the angle where the pie of the shape starts,
+         in degrees. The shape keeps the pie from the start angle clockwise
+         to the end angle. Angles are measured clockwise from the top of the
+         shape, in the space of the layer, so they turn with it. An end
+         angle before the start angle wraps past the top, and a sweep of 360
+         degrees or more keeps the whole shape. Defaults to 0.
+         This parameter is applied directly at the rasterisation stage.
+
+      <endAngle> - Specifies the angle where the pie of the shape ends, in
+         degrees. A start and an end angle that are equal keep none of the
+         shape. Defaults to 360.
+         This parameter is applied directly at the rasterisation stage.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageRectangleShape">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="topLeftRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="topRightRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="bottomLeftRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="bottomRightRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="cornerExponent" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="startAngle" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="endAngle" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Superellipse shape.
+
+      The radius of a superellipse always implicitly 1 along its principal
+      axes. The actual size and the aspect ratio of this shape is controlled
+      by the layer's transform properties.
+
+      <exponent> - Controls the curvature of the super ellipse. The exponent
+         must be positive and non-zero. Typical examples:
+
+            Shape       │ Exponent (n)
+            ────────────┼─────────────
+            Hypoellipse │ 1 / 2
+            Astroid     │ 2 / 3
+            Diamond     │ 1
+            Ellipse     │ 2
+            Squircle    │ 4
+            Rectangle   │ n → ∞
+
+      <startAngle> - Specifies the angle where the pie of the shape starts,
+         in degrees. The shape keeps the pie from the start angle clockwise
+         to the end angle. Angles are measured clockwise from the top of the
+         shape, in the space of the layer, so they turn with it. An end
+         angle before the start angle wraps past the top, and a sweep of 360
+         degrees or more keeps the whole shape. Defaults to 0.
+         This parameter is applied directly at the rasterisation stage.
+
+      <endAngle> - Specifies the angle where the pie of the shape ends, in
+         degrees. A start and an end angle that are equal keep none of the
+         shape. Defaults to 360.
+         This parameter is applied directly at the rasterisation stage.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageSuperellipseShape">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="exponent" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="startAngle" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="endAngle" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Polygon shape. Represents a regular convex polygon, with vertices
+      located on a unit circle.
+
+      <points> - Number of points in the polygon. This property should be
+         specified as integer values. Minimum number of points is 3.
+
+      <cornerRadius> - Specifies the radius of each corner, in pixels.
+         This parameter is applied directly at the rasterisation stage.
+
+      <startAngle> - Specifies the angle where the pie of the shape starts,
+         in degrees. The shape keeps the pie from the start angle clockwise
+         to the end angle. Angles are measured clockwise from the top of the
+         shape, in the space of the layer, so they turn with it. An end
+         angle before the start angle wraps past the top, and a sweep of 360
+         degrees or more keeps the whole shape. Defaults to 0.
+         This parameter is applied directly at the rasterisation stage.
+
+      <endAngle> - Specifies the angle where the pie of the shape ends, in
+         degrees. A start and an end angle that are equal keep none of the
+         shape. Defaults to 360.
+         This parameter is applied directly at the rasterisation stage.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PagePolygonShape">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="points" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="cornerRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="startAngle" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="endAngle" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Star shape. Represents a star polygon, with spoke vertices located on
+      a unit circle.
+
+      <points> - Number of points in the star. This property should be
+         specified as integer values. Minimum number of points is 3.
+
+      <incircleRadius> - Specifies the incircle radius of the spokes, as a
+         fraction of the circumcircle radius, in the range [0, 1]. A value
+         of 1 puts the wedge vertices on the circumcircle, which gives a
+         regular polygon.
+
+      <cornerRadius> - Specifies the radius of each spoke corner, in pixels.
+         This parameter is applied directly at the rasterisation stage.
+
+      <wedgeRadius> - Specifies radius of each spoke wedge, in pixels.
+         This parameter is applied directly at the rasterisation stage.
+
+      <startAngle> - Specifies the angle where the pie of the shape starts,
+         in degrees. The shape keeps the pie from the start angle clockwise
+         to the end angle. Angles are measured clockwise from the top of the
+         shape, in the space of the layer, so they turn with it. An end
+         angle before the start angle wraps past the top, and a sweep of 360
+         degrees or more keeps the whole shape. Defaults to 0.
+         This parameter is applied directly at the rasterisation stage.
+
+      <endAngle> - Specifies the angle where the pie of the shape ends, in
+         degrees. A start and an end angle that are equal keep none of the
+         shape. Defaults to 360.
+         This parameter is applied directly at the rasterisation stage.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageStarShape">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="points" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="incircleRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="cornerRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="wedgeRadius" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="startAngle" type="Data.ExpressionVariant" minOccurs="0" />
+               <xs:element name="endAngle" type="Data.ExpressionVariant" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Text shape. Attributed strings, or rich text formats (RTF), must
+      retain only text and formatting related information. This includes
+      font metrics, line spacing, text transformation and alignment. All
+      other embedded information should be stripped out.
+
+      <rendering> - Specifies which font rendering engine to use for text.
+
+      <padding> - The clearance between the box and the text, in pixels.
+         It does not change the layer's bounding box.
+
+      <verticalAlignment> - Where the text sits vertically within the box,
+         inside the padding. Overflowing text draws into the padding, and the
+         box clips it.
+
+      <mediaType> - Specifies the media type of the text. Currently supported
+         media types are: "text/rtf" and "text/plain;charset=UTF-8".
+
+      <text> - The text data, encapsulated inside a CDATA section.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageTextShape">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="rendering" type="Enum.PageTextRendering" minOccurs="0" />
+               <xs:element name="padding" type="Data.GeometryEdge" minOccurs="0" />
+               <xs:element name="verticalAlignment" type="Enum.PageTextVerticalAlignment" minOccurs="0" />
+               <xs:element name="mediaType" type="Enum.MediaType" minOccurs="0" />
+               <xs:element name="text" type="Data.String" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Path shape.
+
+      <path> - Sequence of Bézier path commands.
+
+      A Bézier path is a collection of sub-paths, each composed of a sequence
+      of commands that instruct the renderer how to plot curve segments at
+      specified absolute coordinates. Paths are modelled loosely on the
+      SVG 2 specification [1]. The following commands are supported:
+
+      Move-to
+
+         M (x y)+
+
+         Start a new sub-path at the given (x y) coordinates. The first path
+         command is always Move-to. Additional (x y) pairs are treated as
+         implicit Line-to commands. If the previous command was not Move-to,
+         a new sub-path is started. The last coordinate pair becomes the
+         new current point.
+
+      Line-to
+
+         L (x y)+
+
+         Connect a line from the current point to (x y). Multiple (x y)
+         pairs draw a polyline. The last coordinate pair becomes the
+         new current point.
+
+      Quadratic Bézier Curve-to
+
+         Q (cx1 cy1 x y)+
+
+         Connect a quadratic Bézier curve from the current point to (x y)
+         using (cx1 cy1) as the control point. Multiple sets of
+         (cx1 cy1 x y) draw a poly-Bézier. The last coordinate pair becomes
+         the new current point.
+
+         T (x y)+
+
+         Connect a quadratic Bézier curve from the current point to (x y).
+         The control point (cx1 cy1) is the symmetric reflection of the last
+         control point from the previous command, the last curve command in
+         the closed sub-path, or the current point if the previous command
+         has no control point (see Note 1). Multiple (x y) pairs draw a
+         poly-Bézier. The last coordinate pair becomes the new current point.
+
+         U (m x y)+
+
+         Connect a quadratic Bézier curve from the current point to (x y).
+         The control point (cx1 cy1) is the asymmetric reflection of the last
+         control point from the previous command, the last curve command in
+         the closed sub-path, or the current point if the previous command
+         has no control point. The parameter m is the Euclidean length of
+         the asymmetric reflection (see Note 2). Multiple (m x y) sets draw
+         a poly-Bézier. The last coordinate pair becomes the new current
+         point.
+
+      Cubic Bézier Curve-to
+
+         C (cx1 cy1 cx2 cy2 x y)+
+
+         Connect a cubic Bézier curve from the current point to (x y) using
+         (cx1 cy1) and (cx2 cy2) as control points. Multiple sets of
+         (cx1 cy1 cx2 cy2 x y) draw a poly-Bézier. The last coordinate pair
+         becomes the new current point.
+
+         S (cx2 cy2 x y)+
+
+         Connect a cubic Bézier curve from the current point to (x y) using
+         (cx2 cy2) as the control point. The control point (cx1 cy1) is the
+         symmetric reflection of the last control point from the previous
+         command, the last curve command in the closed sub-path, or the
+         current point if the previous command has no control point
+         (see Note 1). Multiple (cx2 cy2 x y) sets draw a poly-Bézier.
+         The last coordinate pair becomes the new current point.
+
+         R (m cx2 cy2 x y)+
+
+         Connect a cubic Bézier curve from the current point to (x y).
+         The first control point (cx1 cy1) is the asymmetric reflection of
+         the last control point from the previous command, the last curve
+         command in the closed sub-path, or the current point if the
+         previous command has no control point (see Note 2). The parameter m
+         is the Euclidean length of the asymmetric reflection. Multiple
+         (m cx2 cy2 x y) sets draw a poly-Bézier. The last coordinate pair
+         becomes the new current point.
+
+      Close Path
+
+         Z
+
+         Close the current sub-path by connecting the current point to the
+         sub-path's initial point. This forms an implicit Line-to command.
+         If Close Path is followed by Move-to, a new sub-path is started.
+         If followed by any other command, the next sub-path must begin at
+         the same initial point as the current sub-path.
+
+      Note 1: Calculating Symmetric Reflections
+
+         cx1 = 2 * cpx - kx
+         cy1 = 2 * cpy - ky
+
+         Where (cx1, cy1) is the reflected control point, (cpx, cpy) is the
+         current point, and (kx, ky) is the last control point from the
+         previous command. If the previous command has no control point, the
+         reflected control point coincides with the current point:
+         (cx1, cy1) = (cpx, cpy).
+
+      Note 2: Calculating Asymmetric Reflections
+
+         cx1 = cpx + m * (cpx - kx) / l
+         cy1 = cpy + m * (cpy - ky) / l
+
+         Where (cx1, cy1) is the reflected control point, (cpx, cpy) is the
+         current point, and (kx, ky) is the last control point from the
+         previous command. The parameter m is the Euclidean length of the
+         asymmetric reflection. The parameter l is the Euclidean length of
+         the control vector (cpx, cpy) − (kx, ky). If l is zero, or if the
+         previous command has no control point, the reflected control point
+         coincides with the current point: (cx1, cy1) = (cpx, cpy).
+
+      Note 3: Reflective Quadratic Curve-to Limitations
+
+         Avoid circular dependencies in a closed sub-path consisting only of
+         reflective quadratic Bézier commands (T and U) between Move-to and
+         Close Path. Sub-paths with such circular dependencies are considered
+         undefined behaviour. Break the cycle by converting the first Curve-to
+         after Move-to into a non-reflective command (Q).
+
+      Most of the commands above are SVG-compatible (M, L, Q, T, C, S, Z),
+      except for U and R.
+
+      References
+
+      1. Scalable Vector Graphics (SVG) 2, W3C Candidate Recommendation,
+         World Wide Web Consortium (W3C), 4 October 2018
+         https://www.w3.org/TR/SVG/paths.html
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PagePathShape">
+      <xs:complexContent>
+         <xs:extension base="Data.PageLayerContentVariant">
+            <xs:sequence>
+               <xs:element name="path" type="Data.String" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Page layer.
+
+      <name> - Layer's display name.
+
+      <hidden> - Controls whether the layer should be hidden at render stage.
+
+      <locked> - Controls whether the layer is locked against selection and
+         editing in the user interface. It has no effect on rendering.
+
+      <expanded> - Controls whether the child nodes for this layer should be
+         expanded or collapsed in the user interface. This is a convenience
+         property for storing the tree view state inside the document.
+
+      <transform> - Transform properties.
+
+      <compositing> - Compositing properties.
+
+      <building> - Building properties.
+
+      <clipping> - Clipping properties.
+
+      <content> - Variant that represents the layer content. Optional element
+         will default to "Data.PageGroup" if missing.
+
+      <layerList> - Child layer list contained in the layer.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageLayer">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+         <xs:element name="hidden" type="Data.Bool" minOccurs="0" />
+         <xs:element name="locked" type="Data.Bool" minOccurs="0" />
+         <xs:element name="expanded" type="Data.Bool" minOccurs="0" />
+         <xs:element name="transform" type="Data.LayerTransform" minOccurs="0" />
+         <xs:element name="compositing" type="Data.LayerCompositing" minOccurs="0" />
+         <xs:element name="building" type="Data.LayerBuilding" minOccurs="0" />
+         <xs:element name="clipping" type="Data.LayerClipping" minOccurs="0" />
+         <xs:element name="content" type="Data.PageLayerContentVariant" minOccurs="0" />
+         <xs:element name="layerList" type="Data.PageLayerList" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of various page layers.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageLayerList">
+      <xs:sequence>
+         <xs:element name="layer" type="Data.PageLayer" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Page.
+
+      <name> - Display name for the page.
+
+      <building> - Building properties.
+
+      <clipping> - Clipping properties.
+
+      <layerList> - The layer list for the current page.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.Page">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+         <xs:element name="building" type="Data.LayerBuilding" minOccurs="0" />
+         <xs:element name="clipping" type="Data.LayerClipping" minOccurs="0" />
+         <xs:element name="layerList" type="Data.PageLayerList" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of page objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.PageList">
+      <xs:sequence>
+         <xs:element name="page" type="Data.Page" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

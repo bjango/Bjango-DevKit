@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image tiling properties, used for textures and buffers.
+
+      <x>, <y>, <z> - Tiling enumeration for each dimension.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ImageTiling">
+      <xs:sequence>
+         <xs:element name="x" type="Enum.ImageTiling" minOccurs="0" />
+         <xs:element name="y" type="Enum.ImageTiling" minOccurs="0" />
+         <xs:element name="z" type="Enum.ImageTiling" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image affine transformations can control the size, position, shear, and
+      angle of textures, relative to the reference frame of the geometry the
+      texture is mapped to.
+
+      The transformations will be applied on textures, using the post-
+      multiplication sequence, starting with an identity matrix, then
+      operations are cumulatively multiplied to the same matrix in the order
+      of center rotate, center shear, translate and scale, resulting in a
+      composite transformation matrix. In other words, we mathematically
+      compose the transformations in the reverse order which the properties
+      appear below.
+
+      <scale> - Scaling transform.
+
+      <translate> - Translation transform.
+
+      <centerShear> - Center shearing transform.
+
+      <centerRotate> - Center rotation transform.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ImageTransform">
+      <xs:sequence>
+         <xs:element name="scale" type="Data.TransformScale" minOccurs="0" />
+         <xs:element name="translate" type="Data.TransformTranslate" minOccurs="0" />
+         <xs:element name="centerShear" type="Data.TransformCenterShear" minOccurs="0" />
+         <xs:element name="centerRotate" type="Data.TransformCenterRotate" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image data.
+
+      <mediaType> - Specifies the media type of the content.
+
+      <data> - The image data block represented in RFC 4648 Base64 encoding.
+
+      <path> - Optional location where the data originated from. Resolved
+         relative to the current working directory, which may correspond to
+         the current document location.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ImageData">
+      <xs:sequence>
+         <xs:element name="mediaType" type="Enum.MediaType" minOccurs="0" />
+         <xs:element name="data" type="Data.Buffer" minOccurs="0" />
+         <xs:element name="path" type="Data.URI" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ImageVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image type that represents either 1D, 2D and 3D textures.
+
+      <minFilter> - Texture sampler minification filtering mode.
+
+      <magFilter> - Texture sampler magnification filtering mode.
+         
+      <tiling> - Image tiling mode in each dimension.
+
+      <content> - Stores the encoded image content.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ImageTexture">
+      <xs:complexContent>
+         <xs:extension base="Data.ImageVariant">
+            <xs:sequence>
+               <xs:element name="minFilter" type="Enum.ImageMinFilter" minOccurs="0" />
+               <xs:element name="magFilter" type="Enum.ImageMagFilter" minOccurs="0" />
+               <xs:element name="tiling" type="Data.ImageTiling" minOccurs="0" />
+               <xs:element name="content" type="Data.ImageData" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of discrete faces for a cube map.
+
+      <minFilter> - Texture sampler minification filtering mode.
+
+      <magFilter> - Texture sampler magnification filtering mode.
+         
+      <tiling> - Image tiling mode in each dimension.
+
+      <negative*>, <positive*> - Stores individual cube face data for
+         each direction.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ImageCubeFaces">
+      <xs:complexContent>
+         <xs:extension base="Data.ImageVariant">
+            <xs:sequence>
+               <xs:element name="minFilter" type="Enum.ImageMinFilter" minOccurs="0" />
+               <xs:element name="magFilter" type="Enum.ImageMagFilter" minOccurs="0" />
+               <xs:element name="tiling" type="Data.ImageTiling" minOccurs="0" />
+               <xs:element name="negativeX" type="Data.ImageData" minOccurs="0" />
+               <xs:element name="positiveX" type="Data.ImageData" minOccurs="0" />
+               <xs:element name="negativeY" type="Data.ImageData" minOccurs="0" />
+               <xs:element name="positiveY" type="Data.ImageData" minOccurs="0" />
+               <xs:element name="negativeZ" type="Data.ImageData" minOccurs="0" />
+               <xs:element name="positiveZ" type="Data.ImageData" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of image related objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.ImageList">
+      <xs:sequence>
+         <xs:element name="image" type="Data.ImageVariant" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

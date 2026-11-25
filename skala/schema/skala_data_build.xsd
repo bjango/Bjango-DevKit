@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Export output.
+
+      <scale> - Image scaling parameter.
+
+      <prefix> - File name prefix.
+
+      <suffix> - File name suffix.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildOutput">
+      <xs:sequence>
+         <xs:element name="scale" type="Data.Double" minOccurs="0" />
+         <xs:element name="prefix" type="Data.String" minOccurs="0" />
+         <xs:element name="suffix" type="Data.String" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Export output list.
+
+      <output> - Individual export output structures.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildOutputList">
+      <xs:sequence>
+         <xs:element name="output" type="Data.BuildOutput" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Export variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildExportVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Image export.
+      
+      <outputList> - List of outputs. The number of images generated will
+         correspond to the item count.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildExportImage">
+      <xs:complexContent>
+         <xs:extension base="Data.BuildExportVariant">
+            <xs:sequence>
+               <xs:element name="outputList" type="Data.BuildOutputList" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Mipmap export. Mipmap export operations will generate pre-calculated,
+      optimized sequences of textures, each of which is a progressively lower 
+      resolution representation of the input image. The height and width of
+      each mimmap level is a power of two smaller than the previous level.
+
+      <output> - Specifies the prefix and suffix output parameters for the 
+         image file.
+         
+      <composition> - Controls how the mipmap levels are composed upon export. 
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildExportMipmap">
+      <xs:complexContent>
+         <xs:extension base="Data.BuildExportVariant">
+            <xs:sequence>
+               <xs:element name="output" type="Data.BuildOutput" />
+               <xs:element name="composition" type="Enum.BuildExportMipmapComposition" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Sprite sheet export. A sprite sheet is a single image composed of many 
+      smaller sub-images of arbitrary size. What's special about sprite sheets
+      is that multiple page layers can reference the same build group and be 
+      part of the same sprite sheet. We can optionally specify a coordinate
+      listing for the sprite images in a separate file.
+
+      <output> - File output, specifying the optional file name prefix and 
+         suffix.
+
+      <size> - Specifies the sprite sheet's image resolution, in pixels.
+
+      <padding> - Specifies the amount of padding to use between sprites,
+         in pixels.
+         
+      <sizing> - Controls how the sprite sheet <size> is calculated.
+
+      <alignment> - Controls how sprites are aligned in the sheet.
+
+      <packing> - Controls how sprites are packed in the sheet.
+      
+      <listing> - Specifies what kind of coordinate listing to generate for
+         the sprite images.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildExportSpriteSheet">
+      <xs:complexContent>
+         <xs:extension base="Data.BuildExportVariant">
+            <xs:sequence>
+               <xs:element name="output" type="Data.BuildOutput" />
+               <xs:element name="size" type="Data.Size" minOccurs="0" />
+               <xs:element name="padding" type="Data.Double" minOccurs="0" />
+               <xs:element name="sizing" type="Enum.BuildExportSpriteSheetSizing" minOccurs="0" />
+               <xs:element name="alignment" type="Enum.BuildExportSpriteSheetAlignment" minOccurs="0" />
+               <xs:element name="packing" type="Enum.BuildExportSpriteSheetPacking" minOccurs="0" />
+               <xs:element name="listing" type="Enum.BuildExportSpriteSheetListing" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Format variant.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildFormatVariant" abstract="true" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      JPEG file format.
+      
+      <colorSampling> - Specifies the color sampling when encoding.
+
+      <colorFormat> - Specifies the output channel color format. The format
+         will be automatically deduced if set to "Unspecified".
+
+      <ditherFilter> - Dither related post-processing options. No filtering
+         is performed if set to "Unspecified".
+
+      <progressive> - Specifies whether to use progressive encoding.
+
+      <quality> - Image quality used by the lossy compression algorithm.
+         The image quality range is [0 : 100], with 100 being the best
+         quality. Decreasing the quality will produce a smaller file size 
+         at the expense of increasing visual artefacts. The value of 85 is 
+         a good trade-off between quality and image size.
+
+      <colorProfile> - Path to the ICC color profile that represents the
+         output image colors. Resolved relative to the current working
+         directory, which may correspond to the current document location.
+         The ICC profile will be embedded into the image. If no path was
+         specified, the output profile will be automatically deduced.
+
+      <clampNegatives> - Clamp negative values during color space
+         transformation.
+
+      <enableProofing> - Use alarm codes in the output image to signal
+         conversion losses during color space transformation.
+
+      <text> - User defined text metadata to embed in the image.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildFormatJPEG">
+      <xs:complexContent>
+         <xs:extension base="Data.BuildFormatVariant">
+            <xs:sequence>
+               <xs:element name="colorSampling" type="Enum.BuildFormatJPEGSampling" minOccurs="0" />
+               <xs:element name="colorFormat" type="Enum.ColorFormat" minOccurs="0" />
+               <xs:element name="ditherFilter" type="Enum.ColorDither" minOccurs="0" />
+               <xs:element name="progressive" type="Data.Bool" minOccurs="0" />
+               <xs:element name="quality" type="Data.Int" minOccurs="0" />
+               <xs:element name="colorProfile" type="Data.URI" minOccurs="0" />
+               <xs:element name="clampNegatives" type="Data.Bool" minOccurs="0" />
+               <xs:element name="enableProofing" type="Data.Bool" minOccurs="0" />
+               <xs:element name="text" type="Data.String" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      PNG file format.
+      
+      <colorType> - Specifies the output channel color type. The type
+         will be automatically deduced if set to "Unspecified".
+
+      <colorFormat> - Specifies the output channel color format. The format
+         will be automatically deduced if set to "Unspecified".
+
+      <ditherFilter> - Dither related post-processing options. No filtering
+         is performed if set to "Unspecified".
+
+      <alphaFilter> - Transparency and alpha related post-processing options.
+         No filtering is performed if set to "Unspecified".
+
+      <compression> - Specifies the data compression level.
+
+      <colorProfile> - Path to the ICC color profile that represents the
+         output image colors. Resolved relative to the current working
+         directory, which may correspond to the current document location.
+         The ICC profile will be embedded into the image. If no path was
+         specified, the output profile will be automatically deduced.
+
+      <clampNegatives> - Clamp negative values during color space
+         transformation.
+
+      <enableProofing> - Use alarm codes in the output image to signal
+         conversion losses during color space transformation.
+
+      <text> - User defined text metadata to embed in the image.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildFormatPNG">
+      <xs:complexContent>
+         <xs:extension base="Data.BuildFormatVariant">
+            <xs:sequence>
+               <xs:element name="colorType" type="Enum.ColorType" minOccurs="0" />
+               <xs:element name="colorFormat" type="Enum.ColorFormat" minOccurs="0" />
+               <xs:element name="ditherFilter" type="Enum.ColorDither" minOccurs="0" />
+               <xs:element name="alphaFilter" type="Enum.ColorAlpha" minOccurs="0" />
+               <xs:element name="compression" type="Enum.BuildFormatPNGCompression" minOccurs="0" />
+               <xs:element name="colorProfile" type="Data.URI" minOccurs="0" />
+               <xs:element name="clampNegatives" type="Data.Bool" minOccurs="0" />
+               <xs:element name="enableProofing" type="Data.Bool" minOccurs="0" />
+               <xs:element name="text" type="Data.String" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      TGA file format.
+      
+      <colorType> - Specifies the output channel color type. The type
+         will be automatically deduced if set to "Unspecified".
+
+      <colorFormat> - Specifies the output channel color format. The format
+         will be automatically deduced if set to "Unspecified".
+
+      <ditherFilter> - Dither related post-processing options.
+
+      <alphaFilter> - Transparency and alpha related post-processing options.
+
+      <compression> - Specifies the data compression method.
+
+      <clampNegatives> - Clamp negative values during color space
+         transformation.
+
+      <enableProofing> - Use alarm codes in the output image to signal
+         conversion losses during color space transformation.
+
+      <text> - User defined text metadata to embed in the image.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildFormatTGA">
+      <xs:complexContent>
+         <xs:extension base="Data.BuildFormatVariant">
+            <xs:sequence>
+               <xs:element name="colorType" type="Enum.ColorType" minOccurs="0" />
+               <xs:element name="colorFormat" type="Enum.ColorFormat" minOccurs="0" />
+               <xs:element name="ditherFilter" type="Enum.ColorDither" minOccurs="0" />
+               <xs:element name="alphaFilter" type="Enum.ColorAlpha" minOccurs="0" />
+               <xs:element name="compression" type="Enum.BuildFormatTGACompression" minOccurs="0" />
+               <xs:element name="clampNegatives" type="Data.Bool" minOccurs="0" />
+               <xs:element name="enableProofing" type="Data.Bool" minOccurs="0" />
+               <xs:element name="text" type="Data.String" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      WebP file format.
+      
+      <colorFormat> - Specifies the output channel color format. The format
+         will be automatically deduced if set to "Unspecified".
+
+      <ditherFilter> - Dither related post-processing options.
+
+      <alphaFilter> - Transparency and alpha related post-processing options.
+
+      <lossless> - Specifies whether to use lossless compression.
+
+      <quality> - Image quality used by the lossy compression algorithm.
+         The image quality range is [0 : 100], with 100 being the best
+         quality. Decreasing the quality will produce a smaller file size 
+         at the expense of increasing visual artefacts. The value of 85 is 
+         a good trade-off between quality and image size. This property is 
+         ignored when <lossless> is set to true.
+
+      <colorProfile> - Path to the ICC color profile that represents the
+         output image colors. Resolved relative to the current working
+         directory, which may correspond to the current document location.
+         The ICC profile will be embedded into the image. If no path was
+         specified, the output profile will be automatically deduced.
+
+      <clampNegatives> - Clamp negative values during color space
+         transformation.
+
+      <enableProofing> - Use alarm codes in the output image to signal
+         conversion losses during color space transformation.
+
+      <text> - User defined text metadata to embed in the image.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildFormatWebP">
+      <xs:complexContent>
+         <xs:extension base="Data.BuildFormatVariant">
+            <xs:sequence>
+               <xs:element name="colorFormat" type="Enum.ColorFormat" minOccurs="0" />
+               <xs:element name="ditherFilter" type="Enum.ColorDither" minOccurs="0" />
+               <xs:element name="alphaFilter" type="Enum.ColorAlpha" minOccurs="0" />
+               <xs:element name="lossless" type="Data.Bool" minOccurs="0" />
+               <xs:element name="quality" type="Data.Int" minOccurs="0" />
+               <xs:element name="colorProfile" type="Data.URI" minOccurs="0" />
+               <xs:element name="clampNegatives" type="Data.Bool" minOccurs="0" />
+               <xs:element name="enableProofing" type="Data.Bool" minOccurs="0" />
+               <xs:element name="text" type="Data.String" minOccurs="0" />
+            </xs:sequence>
+            <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Build task.
+
+      <name> - Display name for the build task object.
+
+      <path> - Specifies the export path. Resolved relative to the current
+         working directory, which may correspond to the current document
+         location.
+
+      <nameTransform> - Specifies the naming convention applied to the
+         exported file name.
+
+      <exportOptions> - Variant that represents the export properties.
+         Optional element will default to "Data.BuildExportImage" if missing.
+
+      <formatOptions> - Variant that represents the format properties.
+         Optional element will default to "Data.BuildFormatPNG" if missing.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildTask">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+         <xs:element name="path" type="Data.URI" minOccurs="0" />
+         <xs:element name="nameTransform" type="Enum.BuildNameTransform" minOccurs="0" />
+         <xs:element name="exportOptions" type="Data.BuildExportVariant" minOccurs="0" />
+         <xs:element name="formatOptions" type="Data.BuildFormatVariant" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of build task objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildTaskList">
+      <xs:sequence>
+         <xs:element name="task" type="Data.BuildTask" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Build group.
+
+      <name> - Display name for the build group.
+
+      <taskList> - Collection of build tasks associated with the current
+         build group.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildGroup">
+      <xs:sequence>
+         <xs:element name="name" type="Data.String" minOccurs="0" />
+         <xs:element name="taskList" type="Data.BuildTaskList" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.RequiredKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of build group objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.BuildGroupList">
+      <xs:sequence>
+         <xs:element name="group" type="Data.BuildGroup" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>

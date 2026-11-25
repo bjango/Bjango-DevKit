@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the image tiling mode.
+
+      "Repeat" - Repeats the tiled image (default).
+
+      "ClampToEdge" - Clamps the image to edge pixels.
+
+      "ClampToBorder" - Clamps the image to some border color.
+
+      "MirrorRepeat" - Repeats the tiled image, but mirrors the image for
+         every odd repeat.
+
+      "MirrorClampToEdge" - Mirrors the image once then clamps to edge pixels.
+
+      "MirrorClampToBorder" - Mirrors the image once then clamps to border 
+         color. Note: Not all hardware support this feature.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ImageTiling">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Repeat" />
+         <xs:enumeration value="ClampToEdge" />
+         <xs:enumeration value="ClampToBorder" />
+         <xs:enumeration value="MirrorRepeat" />
+         <xs:enumeration value="MirrorClampToEdge" />
+         <xs:enumeration value="MirrorClampToBorder" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Texture sampler minification filtering mode.
+
+      "Nearest" - Performs no filtering, samples the nearest pixels.
+
+      "Linear" - Samples the linear interpolation of nearest pixels.
+
+      "NearestMipmapNearest" - Samples nearest pixels at both mipmap levels,
+         and performs linear interpolation between the levels.
+
+      "LinearMipmapNearest" - Samples the linear interpolation of nearest
+         pixels in the top mipmap level, nearest pixels at lower level,
+         and performs linear interpolation between the levels.
+
+      "NearestMipmapLinear" - Samples nearest pixels at top mipmap level,
+         the linear interpolation of nearest pixels in the lower level,
+         and performs linear interpolation between the levels.
+
+      "LinearMipmapLinear" - Samples the linear interpolation of nearest
+         pixels in both mipmap levels, and performs linear interpolation 
+         between the levels.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ImageMinFilter">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Nearest" />
+         <xs:enumeration value="Linear" />
+         <xs:enumeration value="NearestMipmapNearest" />
+         <xs:enumeration value="LinearMipmapNearest" />
+         <xs:enumeration value="NearestMipmapLinear" />
+         <xs:enumeration value="LinearMipmapLinear" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Texture sampler magnification filtering mode.
+
+      "Nearest" - Performs no filtering, samples the nearest pixels.
+
+      "Linear" - Samples the linear interpolation of nearest pixels.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ImageMagFilter">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Nearest" />
+         <xs:enumeration value="Linear" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies how an image is filtered when it is resampled, both when it
+      is enlarged and when it is reduced.
+
+      "Linear" - Samples the linear interpolation of nearest pixels (default).
+
+      "Nearest" - Performs no filtering, samples the nearest pixels.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ImageFilter">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Linear" />
+         <xs:enumeration value="Nearest" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies how the image should be transformed and fitted to a bounding 
+      box. This enumeration is used in conjunction with transformation related
+      properties. "Custom" allows users to set the matrix transformation 
+      properties manually. All other enumeration modes will override the 
+      position and scale transformation properties. These will be computed 
+      automatically by taking the image and bounding box size into account.
+
+      "Fill" - Scale the image to fit the bounding box.
+
+      "Native" - Render the image at native sampling resolution. The image 
+         may be padded or cropped by the bounding box.
+
+      "Contain" - Image is sized to maintain its aspect ratio while fitting
+         within the bounding box. The image may be padded in the bounding 
+         box.
+
+      "Cover" - Image is sized to maintain its aspect ratio while filling 
+         the entire bounding box. The image may be cropped by the bounding 
+         box.
+
+      "Custom" - User defined transformation.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ImageFit">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Fill" />
+         <xs:enumeration value="Native" />
+         <xs:enumeration value="Contain" />
+         <xs:enumeration value="Cover" />
+         <xs:enumeration value="Custom" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

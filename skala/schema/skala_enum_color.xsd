@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the alpha composition method between the Source and
+      Destination image, according to the Porter and Duff scheme. The Source
+      is always assumed to be on top of the Destination image, and thus the
+      terms Above and Below is synonymous for Source and Destination
+      respectively. The Destination image represents the target where the
+      composed colors are accumulated into. For example, typical targets
+      may include the canvas buffer, or some intermediate image buffer.
+
+      "Clear" - Clear all samples.
+
+      "AboveOnly" - Replace all Destination samples with Source.
+
+      "BelowOnly" - Replace all Source samples with Destination.
+
+      "AboveOver" - Compose Source samples over Destination. Equivalent to
+         "normal" alpha composition in third party applications.
+
+      "BelowOver" - Compose Destination samples over Source.
+
+      "AboveInside" - Retain only Source samples intersecting Destination.
+
+      "BelowInside" - Retain only Destination samples intersecting Source.
+
+      "AboveOutside" - Retain only Source samples not intersecting Destination.
+
+      "BelowOutside" - Retain only Destination samples not intersecting Source.
+
+      "AboveAtop" - Retain Destination samples; and also retain Source samples
+         only if intersecting Destination.
+
+      "BelowAtop" - Retain Source samples; and also retain Destination samples
+         only if intersecting Source.
+
+      "XOR" - Clear samples intersecting Source and Destination.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.AlphaCompositing">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Clear" />
+         <xs:enumeration value="AboveOnly" />
+         <xs:enumeration value="BelowOnly" />
+         <xs:enumeration value="AboveOver" />
+         <xs:enumeration value="BelowOver" />
+         <xs:enumeration value="AboveInside" />
+         <xs:enumeration value="BelowInside" />
+         <xs:enumeration value="AboveOutside" />
+         <xs:enumeration value="BelowOutside" />
+         <xs:enumeration value="AboveAtop" />
+         <xs:enumeration value="BelowAtop" />
+         <xs:enumeration value="XOR" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Overrides the default color blend function of the overlapping region
+      between the Source and Destination alpha composition.
+
+      "Default" - The default color blending function used by alpha
+         compositing. Using this mode in combination with "AboveOver" alpha
+         compositing is equivalent to "normal" color blending in third
+         party applications.
+
+      "Zero" - Set the overlapping region to zero.
+
+      "Above" - Set the overlapping region to Source color.
+
+      "Below" - Set the overlapping region to Destination color.
+
+      "Addition" - Add Source and Destination, then saturate the result.
+
+      "AdditionMinusOne" - Add Source and Destination, subtract one, then
+         saturate the result.
+
+      "Subtraction" - Subtract Destination with Source, then saturate the
+         result.
+
+      "Difference" - Absolute difference between Source and Destination.
+
+      "Difference2" - Absolute difference between Source and Destination
+         squared.
+
+      "Difference3" - Absolute difference between Source and Destination
+         cubed.
+
+      "Exclusion" - Exclusive OR between Source and Destination.
+
+      "Minimum" - Retain minimum components of Source and Destination.
+
+      "Maximum" - Retain maximum components of Source and Destination.
+
+      "Multiplication" - Multiply Source and Destination.
+
+      "Division" - Divide Destination with Source, then saturate the result.
+
+      "Dodge" - Divide Destination with the complement of Source, then
+         saturate the result.
+
+      "Burn" - Divide the complement of Destination with Source, then
+         complement the result.
+
+      "Screen" - Multiply the complements of Source and Destination, then
+         complement the result.
+
+      "Overlay" - Multiply or Screen Source and Destination, depending on
+         Destination.
+
+      "HardLight" - Same as Overlay but with the Source and Destination
+         swapped.
+
+      "SoftLight" - Darkens or lightens Destination, depending on Source.
+
+      "CrossProduct" - Cross product between Source and Destination.
+
+      "Projection" - Projection of Destination on Source.
+
+      "Rejection" - Rejection of Source on Destination.
+
+      "Reflection" - Reflection of Source about Destination.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ColorCompositing">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Default" />
+         <xs:enumeration value="Zero" />
+         <xs:enumeration value="Above" />
+         <xs:enumeration value="Below" />
+         <xs:enumeration value="Addition" />
+         <xs:enumeration value="AdditionMinusOne" />
+         <xs:enumeration value="Subtraction" />
+         <xs:enumeration value="Difference" />
+         <xs:enumeration value="Difference2" />
+         <xs:enumeration value="Difference3" />
+         <xs:enumeration value="Exclusion" />
+         <xs:enumeration value="Minimum" />
+         <xs:enumeration value="Maximum" />
+         <xs:enumeration value="Multiplication" />
+         <xs:enumeration value="Division" />
+         <xs:enumeration value="Dodge" />
+         <xs:enumeration value="Burn" />
+         <xs:enumeration value="Screen" />
+         <xs:enumeration value="Overlay" />
+         <xs:enumeration value="HardLight" />
+         <xs:enumeration value="SoftLight" />
+         <xs:enumeration value="CrossProduct" />
+         <xs:enumeration value="Projection" />
+         <xs:enumeration value="Rejection" />
+         <xs:enumeration value="Reflection" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the color interpolation type. Interpolation is usually 
+      performed between two or more adjacent colors, typically part of a 
+      sequence of N color steps in a gradient.
+
+      "Nearest" - Nearest sampling of two adjacent color steps.
+
+      "Linear" - Linear interpolation of two adjacent color steps.
+
+      "Cosine" - Cosine interpolation of two adjacent color steps.
+
+      "Hermite3" - Cubic Hermite interpolation of two adjacent color steps.
+
+      "Hermite5" - Quintic Hermite interpolation of two adjacent color steps.
+
+      "CatmullRom" - Catmull-Rom spline interpolation of four adjacent color
+         steps.
+
+      "Voronoi" - Nearest neighbour 2D cell interpolation.
+
+      "Sibson" - Natural neighbour 2D cell interpolation.
+
+      "Shepard" - Inverse distance 2D cell interpolation.
+
+      "Gaussian" - Density distribution 2D cell interpolation.
+
+      "Blobs" - Potential field 2D cell interpolation.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ColorInterpolation">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Nearest" />
+         <xs:enumeration value="Linear" />
+         <xs:enumeration value="Cosine" />
+         <xs:enumeration value="Hermite3" />
+         <xs:enumeration value="Hermite5" />
+         <xs:enumeration value="CatmullRom" />
+         <xs:enumeration value="Voronoi" />
+         <xs:enumeration value="Sibson" />
+         <xs:enumeration value="Shepard" />
+         <xs:enumeration value="Gaussian" />
+         <xs:enumeration value="Blobs" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the channel color type.
+
+      "Unspecified" - The channel data type is unspecified. Typically 
+         used in scenarios when the channel type should be automatically
+         deduced, or should be ignored.
+
+      "Int8" - Signed integral, 8-bit.
+
+      "Int16" - Signed integral, 16-bit.
+      
+      "Int32" - Signed integral, 32-bit.
+
+      "Int64" - Signed integral, 64-bit.
+      
+      "UInt8" - Unsigned integral, 8-bit.
+      
+      "UInt16" - Unsigned integral, 16-bit.
+      
+      "UInt32" - Unsigned integral, 32-bit.
+      
+      "UInt64" - Unsigned integral, 64-bit.
+
+      "Half" - Half precision IEEE 754-2008 floating point, 16-bit.
+      
+      "Float" - Single precision IEEE 754-2008 floating point, 32-bit.
+      
+      "Double" - Double precision IEEE 754-2008 floating point, 64-bit.
+      
+      "LDouble" - Long double precision floating point. The actual
+         precision is implementation defined on the target hardware
+         and toolchain. Long double is typically either a quadruple
+         precision IEEE 754-2008 floating point, 128-bit; or a double 
+         extended precision floating point, 80-bit.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ColorType">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Unspecified" />
+         <xs:enumeration value="Int8" />
+         <xs:enumeration value="Int16" />
+         <xs:enumeration value="Int32" />
+         <xs:enumeration value="Int64" />
+         <xs:enumeration value="UInt8" />
+         <xs:enumeration value="UInt16" />
+         <xs:enumeration value="UInt32" />
+         <xs:enumeration value="UInt64" />
+         <xs:enumeration value="Half" />
+         <xs:enumeration value="Float" />
+         <xs:enumeration value="Double" />
+         <xs:enumeration value="LDouble" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies the channel color format.
+
+      "Unspecified" - The channel interpretation and the channel count is
+         implementation defined. Typically used to indicate that the channel
+         format is either automatically deduced, or that the format is 
+         ignored. It can also specify that the color model is a custom 
+         format.
+
+      "A" - 1 channel per element; alpha.
+
+      "Y" - 1 channel per element; luminance.
+
+      "YA" - 2 channels per element; luminance, alpha.
+
+      "R" - 1 channel per element; red.
+
+      "RG" - 2 channels per element; red, green.
+
+      "RGB" - 3 channels per element; red, green, blue.
+
+      "RGBA" - 4 channels per element; red, green, blue, alpha.
+
+      "D" - 1 channel per element; depth.
+
+      "DS" - 2 channels per element; depth, stencil.
+
+      "S" - 1 channel per element; stencil.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ColorFormat">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Unspecified" />
+         <xs:enumeration value="A" />
+         <xs:enumeration value="Y" />
+         <xs:enumeration value="YA" />
+         <xs:enumeration value="R" />
+         <xs:enumeration value="RG" />
+         <xs:enumeration value="RGB" />
+         <xs:enumeration value="RGBA" />
+         <xs:enumeration value="D" />
+         <xs:enumeration value="DS" />
+         <xs:enumeration value="S" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Dithering related color post-processing options.
+      
+      "Unspecified" - The dithering filter is unspecified. Typically this
+         leaves the image data unmodified.
+
+      "Nasik" - Apply ordered dithering on all channels with a Nasik matrix.
+
+      "Bayer" - Apply ordered dithering on all channels with a Bayer matrix.
+
+      "BlueNoise" - Apply ordered dithering on all channels with a blue 
+         noise matrix.
+
+      "FloydSteinberg" - Apply error diffusion dithering on all channels 
+         with a Floyd-Steinberg diffusion kernel.
+
+      "Atkinson" - Apply error diffusion dithering on all channels with an 
+         Atkinson diffusion kernel.
+
+      "Stucky" - Apply error diffusion dithering on all channels with a 
+         Stucky diffusion kernel.
+
+      "Sierra" - Apply error diffusion dithering on all channels with a 
+         Sierra diffusion kernel.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ColorDither">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Unspecified" />
+         <xs:enumeration value="Nasik" />
+         <xs:enumeration value="Bayer" />
+         <xs:enumeration value="BlueNoise" />
+         <xs:enumeration value="FloydSteinberg" />
+         <xs:enumeration value="Atkinson" />
+         <xs:enumeration value="Stucky" />
+         <xs:enumeration value="Sierra" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Transparency and alpha related post-processing options.
+
+      "Unspecified" - The alpha filter is unspecified. Typically this
+         leaves the image data unmodified.
+
+      "PremultiplyAlpha" - Color components will be premultiplied with the
+         alpha component.
+
+      "ClearTransparent" - Color data with an alpha component of zero will
+         be also cleared to zero. This action can improve data compression
+         performance.
+
+      "FloodTransparent" - Color data with an alpha component of zero will
+         be set with a color data matching the nearest opaque pixel. Useful
+         for preventing color bleeding artefacts appearing in kernel based
+         texture filtering, etc.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ColorAlpha">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Unspecified" />
+         <xs:enumeration value="PremultiplyAlpha" />
+         <xs:enumeration value="ClearTransparent" />
+         <xs:enumeration value="FloodTransparent" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Color profiles. Skala documents assume "ExtendedSRGB" color profile
+      by default, when colors are specified without a profile. Extended range
+      color profiles permit the red, green and blue components to exceed the
+      normalised range [0, 1], while still preserving the colorimetry. The
+      extended range transfer function g(x) will process negative color
+      components as the signed reflection of original transfer function f(x),
+      such that g(x) = f(abs(x)) * sign(x).
+
+      "ExtendedSRGB" - Extended sRGB non-linear color profile,
+         IEC 61966-2-2:2003.
+
+      "ExtendedLinearSRGB" - Extended linear sRGB color profile,
+         IEC 61966-2-2:2003.
+
+      "ExtendedBT709" - Extended R-REC-BT.709 color profile.
+
+      "ExtendedBT2020" - Extended R-REC-BT.2020 color profile.
+
+      "ExtendedDCIP3" - Extended DCI-P3 color profile, SMPTE-EG-0432-1:2010.
+
+      "ExtendedDCIP3_D65" - Extended DCI-P3 color profile, with a D65
+         white point, SMPTE-EG-0432-1:2010.
+
+      "ExtendedDisplayP3" - Extended Display-P3 color profile.
+
+      "ExtendedLinearDisplayP3" - Extended linear Display-P3 color profile.
+
+      "ExtendedAdobeRGB1998" - Extended Adobe RGB (1998) color profile,
+         IEC 61966-2-5:2007, ISO 12640-4:2011.
+
+      "ExtendedACEScg" - Extended Academy Color Encoding System (ACES) for
+         computer graphics.
+
+      "ExtendedACEScg_D65" - Extended Academy Color Encoding System (ACES)
+         for computer graphics, with a D65 white point.
+
+      "sRGB" - sRGB color profile, IEC 61966-2-1:1999.
+
+      "LinearSRGB" - Linear sRGB color profile.
+
+      "BT709" - R-REC-BT.709 color profile.
+
+      "BT2020" - R-REC-BT.2020 color profile.
+
+      "DCIP3" - DCI-P3 color profile, SMPTE-EG-0432-1:2010.
+
+      "DCIP3_D65" - DCI-P3 color profile, with a D65 white point,
+         SMPTE-EG-0432-1:2010.
+
+      "DisplayP3" - Display-P3 color profile.
+
+      "LinearDisplayP3" - Linear Display-P3 color profile.
+
+      "AdobeRGB1998" - Adobe RGB (1998) color profile, IEC 61966-2-5:2007,
+         ISO 12640-4:2011.
+
+      "ACEScg" - Academy Color Encoding System (ACES) for computer graphics.
+
+      "ACEScg_D65" - Academy Color Encoding System (ACES) for computer
+         graphics, with a D65 white point.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.ColorProfile">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="ExtendedSRGB" />
+         <xs:enumeration value="ExtendedLinearSRGB" />
+         <xs:enumeration value="ExtendedBT709" />
+         <xs:enumeration value="ExtendedBT2020" />
+         <xs:enumeration value="ExtendedDCIP3" />
+         <xs:enumeration value="ExtendedDCIP3_D65" />
+         <xs:enumeration value="ExtendedDisplayP3" />
+         <xs:enumeration value="ExtendedLinearDisplayP3" />
+         <xs:enumeration value="ExtendedAdobeRGB1998" />
+         <xs:enumeration value="ExtendedACEScg" />
+         <xs:enumeration value="ExtendedACEScg_D65" />
+         <xs:enumeration value="sRGB" />
+         <xs:enumeration value="LinearSRGB" />
+         <xs:enumeration value="BT709" />
+         <xs:enumeration value="BT2020" />
+         <xs:enumeration value="DCIP3" />
+         <xs:enumeration value="DCIP3_D65" />
+         <xs:enumeration value="DisplayP3" />
+         <xs:enumeration value="LinearDisplayP3" />
+         <xs:enumeration value="AdobeRGB1998" />
+         <xs:enumeration value="ACEScg" />
+         <xs:enumeration value="ACEScg_D65" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

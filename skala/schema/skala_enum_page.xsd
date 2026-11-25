@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Enumerates the visibility options for guide layers.
+
+      "None" - Guides are not visible.
+
+      "Clipped" - Guides are visible, but clipped against a bounding box
+         (typically against an include layer bounding box).
+
+      "Full" - Guides are fully visible.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.PageGuideVisibility">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="None" />
+         <xs:enumeration value="Clipped" />
+         <xs:enumeration value="Full" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Text rendering enumeration.
+
+      "System" - Glyphs are drawn through the OS font renderer.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.PageTextRendering">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="System" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Specifies where the text sits vertically within its box.
+
+      "Top" - The first line starts at the top of the box, inside the padding.
+      "Middle" - The text is centred between the top and bottom padding.
+      "Bottom" - The last line ends at the bottom of the box, inside the padding.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:simpleType name="Enum.PageTextVerticalAlignment">
+      <xs:restriction base="xs:token">
+         <xs:enumeration value="Top" />
+         <xs:enumeration value="Middle" />
+         <xs:enumeration value="Bottom" />
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>

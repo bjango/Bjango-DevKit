@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- Data module -->
+   <xs:include schemaLocation="skala_data_build.xsd" />
+   <xs:include schemaLocation="skala_data_color.xsd" />
+   <xs:include schemaLocation="skala_data_common.xsd" />
+   <xs:include schemaLocation="skala_data_document.xsd" />
+   <xs:include schemaLocation="skala_data_expression.xsd" />
+   <xs:include schemaLocation="skala_data_geometry.xsd" />
+   <xs:include schemaLocation="skala_data_image.xsd" />
+   <xs:include schemaLocation="skala_data_layer.xsd" />
+   <xs:include schemaLocation="skala_data_material.xsd" />
+   <xs:include schemaLocation="skala_data_page.xsd" />
+   <xs:include schemaLocation="skala_data_snippet.xsd" />
+   <xs:include schemaLocation="skala_data_transform.xsd" />
+   <xs:include schemaLocation="skala_data_user_note.xsd" />
+
+   <!-- Enum module -->
+   <xs:include schemaLocation="skala_enum_build.xsd" />
+   <xs:include schemaLocation="skala_enum_color.xsd" />
+   <xs:include schemaLocation="skala_enum_common.xsd" />
+   <xs:include schemaLocation="skala_enum_geometry.xsd" />
+   <xs:include schemaLocation="skala_enum_image.xsd" />
+   <xs:include schemaLocation="skala_enum_layer.xsd" />
+   <xs:include schemaLocation="skala_enum_material.xsd" />
+   <xs:include schemaLocation="skala_enum_page.xsd" />
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Skala root element.
+
+      <document> - Document data.
+
+      <snippet> - Document data snippet.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:element name="skala">
+      <xs:complexType>
+         <xs:choice>
+            <xs:element name="document" type="Data.Document" />
+            <xs:element name="snippet" type="Data.Snippet" />
+         </xs:choice>
+      </xs:complexType>
+   </xs:element>
+
+</xs:schema>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema
+   targetNamespace="https://bjango.com/skala"
+   xmlns="https://bjango.com/skala"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+   >
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Edge.
+
+      This object is typically used for representing padding, margin, etc.
+
+      <left> - Measurement relative to the left edge.
+
+      <right> - Measurement relative to the right edge.
+      
+      <top> - Measurement relative to the top edge.
+      
+      <bottom> -  Measurement relative to the bottom edge.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.GeometryEdge">
+      <xs:sequence>
+         <xs:element name="left" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="right" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="top" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="bottom" type="Data.ExpressionVariant" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Vertex.
+      
+      Represents general purpose vertex data, which is optionally attributed 
+      with other data, such point radius and color information. 
+
+      <position> - Specifies the vertex position.
+
+      <color> - Specifies the color associated with the vertex.
+
+      <radius> - Specifies the point radius at the vertex.
+
+      <exponent> - Specifies the exponent weighting factor associated with 
+         the vertex. Typically used by Shepard cell interpolation. A good
+         default value is 2.
+
+      <blobbiness> - Specifies the blobbiness weight for the vertex.
+         It is a measure of attraction between vertices. Typically used by
+         Blob cell interpolation. Interesting range is around [0 : 4] and a 
+         good default value is 0.5.
+
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.GeometryVertex">
+      <xs:sequence>
+         <xs:element name="position" type="Data.ExpressionVector" minOccurs="0" />
+         <xs:element name="color" type="Data.ColorVariant" minOccurs="0" />
+         <xs:element name="radius" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="exponent" type="Data.ExpressionVariant" minOccurs="0" />
+         <xs:element name="blobbiness" type="Data.ExpressionVariant" minOccurs="0" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      Collection of vertex objects.
+     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xs:complexType name="Data.GeometryVertexList">
+      <xs:sequence>
+         <xs:element name="vertex" type="Data.GeometryVertex" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attributeGroup ref="Data.OptionalKeyGroup" />
+   </xs:complexType>
+
+</xs:schema>
